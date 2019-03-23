@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CvEditDlg" widgetVar="CvEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditCvTitle}">
+            <h:form id="CvEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{cvController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditCvLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{cvController.selected.id}" title="#{bundle.EditCvTitle_id}" required="true" requiredMessage="#{bundle.EditCvRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditCvLabel_pathToFile}" for="pathToFile" />
+                        <p:inputText id="pathToFile" value="#{cvController.selected.pathToFile}" title="#{bundle.EditCvTitle_pathToFile}" required="true" requiredMessage="#{bundle.EditCvRequiredMessage_pathToFile}"/>
+                        <p:outputLabel value="#{bundle.EditCvLabel_language}" for="language" />
+                        <p:inputText id="language" value="#{cvController.selected.language}" title="#{bundle.EditCvTitle_language}" required="true" requiredMessage="#{bundle.EditCvRequiredMessage_language}"/>
+                        <p:outputLabel value="#{bundle.EditCvLabel_uploadDate}" for="uploadDate" />
+                        <p:calendar id="uploadDate" pattern="MM/dd/yyyy" value="#{cvController.selected.uploadDate}" title="#{bundle.EditCvTitle_uploadDate}" required="true" requiredMessage="#{bundle.EditCvRequiredMessage_uploadDate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditCvLabel_personId}" for="personId" />
+                        <p:selectOneMenu id="personId" value="#{cvController.selected.personId}" required="true" requiredMessage="#{bundle.EditCvRequiredMessage_personId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personController.itemsAvailableSelectOne}"
+                                           var="personIdItem"
+                                           itemValue="#{personIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cvController.update}" value="#{bundle.Save}" update="display,:CvListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CvEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="CvEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

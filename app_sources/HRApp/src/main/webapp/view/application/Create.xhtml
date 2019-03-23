@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ApplicationCreateDlg" widgetVar="ApplicationCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateApplicationTitle}">
+            <h:form id="ApplicationCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{applicationController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateApplicationLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{applicationController.selected.id}" title="#{bundle.CreateApplicationTitle_id}" required="true" requiredMessage="#{bundle.CreateApplicationRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateApplicationLabel_dateOfApplication}" for="dateOfApplication" />
+                        <p:calendar id="dateOfApplication" pattern="MM/dd/yyyy" value="#{applicationController.selected.dateOfApplication}" title="#{bundle.EditApplicationTitle_dateOfApplication}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateApplicationLabel_status}" for="status" />
+                        <p:inputText id="status" value="#{applicationController.selected.status}" title="#{bundle.CreateApplicationTitle_status}" />
+                        <p:outputLabel value="#{bundle.CreateApplicationLabel_modificationDate}" for="modificationDate" />
+                        <p:calendar id="modificationDate" pattern="MM/dd/yyyy" value="#{applicationController.selected.modificationDate}" title="#{bundle.EditApplicationTitle_modificationDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateApplicationLabel_hiringId}" for="hiringId" />
+                        <p:selectOneMenu id="hiringId" value="#{applicationController.selected.hiringId}" required="true" requiredMessage="#{bundle.EditApplicationRequiredMessage_hiringId}">
+                            <f:selectItems value="#{hiringController.itemsAvailableSelectOne}"
+                                           var="hiringIdItem"
+                                           itemValue="#{hiringIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateApplicationLabel_personId}" for="personId" />
+                        <p:selectOneMenu id="personId" value="#{applicationController.selected.personId}" required="true" requiredMessage="#{bundle.EditApplicationRequiredMessage_personId}">
+                            <f:selectItems value="#{personController.itemsAvailableSelectOne}"
+                                           var="personIdItem"
+                                           itemValue="#{personIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{applicationController.create}" value="#{bundle.Save}" update="display,:ApplicationListForm:datalist,:growl" oncomplete="handleSubmit(args,'ApplicationCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ApplicationCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

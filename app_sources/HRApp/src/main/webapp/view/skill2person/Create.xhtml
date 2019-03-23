@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="Skill2personCreateDlg" widgetVar="Skill2personCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSkill2personTitle}">
+            <h:form id="Skill2personCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{skill2personController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateSkill2personLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{skill2personController.selected.id}" title="#{bundle.CreateSkill2personTitle_id}" required="true" requiredMessage="#{bundle.CreateSkill2personRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateSkill2personLabel_skillLevel}" for="skillLevel" />
+                        <p:inputText id="skillLevel" value="#{skill2personController.selected.skillLevel}" title="#{bundle.CreateSkill2personTitle_skillLevel}" />
+                        <p:outputLabel value="#{bundle.CreateSkill2personLabel_personId}" for="personId" />
+                        <p:selectOneMenu id="personId" value="#{skill2personController.selected.personId}" required="true" requiredMessage="#{bundle.EditSkill2personRequiredMessage_personId}">
+                            <f:selectItems value="#{personController.itemsAvailableSelectOne}"
+                                           var="personIdItem"
+                                           itemValue="#{personIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateSkill2personLabel_skillId}" for="skillId" />
+                        <p:selectOneMenu id="skillId" value="#{skill2personController.selected.skillId}" required="true" requiredMessage="#{bundle.EditSkill2personRequiredMessage_skillId}">
+                            <f:selectItems value="#{skillController.itemsAvailableSelectOne}"
+                                           var="skillIdItem"
+                                           itemValue="#{skillIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{skill2personController.create}" value="#{bundle.Save}" update="display,:Skill2personListForm:datalist,:growl" oncomplete="handleSubmit(args,'Skill2personCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="Skill2personCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListSkill2hiringTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="Skill2hiringListForm">
+                <p:panel header="#{bundle.ListSkill2hiringTitle}">
+                    <p:dataTable id="datalist" value="#{skill2hiringController.items}" var="item"
+                                 selectionMode="single" selection="#{skill2hiringController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSkill2hiringTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSkill2hiringTitle_skillLevel}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.skillLevel}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSkill2hiringTitle_hiringId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.hiringId}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSkill2hiringTitle_skillId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.skillId}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{skill2hiringController.prepareCreate}" update=":Skill2hiringCreateForm" oncomplete="PF('Skill2hiringCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":Skill2hiringViewForm" oncomplete="PF('Skill2hiringViewDialog').show()" disabled="#{empty skill2hiringController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":Skill2hiringEditForm" oncomplete="PF('Skill2hiringEditDialog').show()" disabled="#{empty skill2hiringController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{skill2hiringController.destroy}" update=":growl,datalist" disabled="#{empty skill2hiringController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

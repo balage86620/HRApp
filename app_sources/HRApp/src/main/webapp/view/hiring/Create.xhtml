@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HiringCreateDlg" widgetVar="HiringCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateHiringTitle}">
+            <h:form id="HiringCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{hiringController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateHiringLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{hiringController.selected.id}" title="#{bundle.CreateHiringTitle_id}" required="true" requiredMessage="#{bundle.CreateHiringRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateHiringLabel_jobName}" for="jobName" />
+                        <p:inputText id="jobName" value="#{hiringController.selected.jobName}" title="#{bundle.CreateHiringTitle_jobName}" />
+                        <p:outputLabel value="#{bundle.CreateHiringLabel_jobDescription}" for="jobDescription" />
+                        <p:inputText id="jobDescription" value="#{hiringController.selected.jobDescription}" title="#{bundle.CreateHiringTitle_jobDescription}" />
+                        <p:outputLabel value="#{bundle.CreateHiringLabel_jobLocation}" for="jobLocation" />
+                        <p:inputText id="jobLocation" value="#{hiringController.selected.jobLocation}" title="#{bundle.CreateHiringTitle_jobLocation}" />
+                        <p:outputLabel value="#{bundle.CreateHiringLabel_salaryCategory}" for="salaryCategory" />
+                        <p:inputText id="salaryCategory" value="#{hiringController.selected.salaryCategory}" title="#{bundle.CreateHiringTitle_salaryCategory}" />
+                        <p:outputLabel value="#{bundle.CreateHiringLabel_jobId}" for="jobId" />
+                        <p:inputText id="jobId" value="#{hiringController.selected.jobId}" title="#{bundle.CreateHiringTitle_jobId}" required="true" requiredMessage="#{bundle.CreateHiringRequiredMessage_jobId}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{hiringController.create}" value="#{bundle.Save}" update="display,:HiringListForm:datalist,:growl" oncomplete="handleSubmit(args,'HiringCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="HiringCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
