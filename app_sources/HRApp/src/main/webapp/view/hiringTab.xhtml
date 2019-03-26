@@ -17,34 +17,51 @@ and open the template in the editor.
 
         <ui:define name="body">
             <h:form>
+                <p:panel >
+                    <p:commandButton value="#{bundle.CreateHiringTitle}"
+                                     type="button"
+                                     icon="ui-icon-plus"
+                                     style="float:right;">
+                    </p:commandButton>
+                </p:panel>
+                <p:panel header="#{bundle.ListHiringTitle}">
+                    <p:dataTable id="datalist" value="#{hiringController.items}" var="item"
+                                 selectionMode="single" selection="#{hiringController.selected}"
+                                 paginator="false"
+                                 rowKey="#{item.id}"
+                                 >
 
-                <p:dataTable id="datalist" value="#{hiringController.items}" var="item"
-                             selectionMode="single" selection="#{hiringController.selected}"
-                             paginator="true"
-                             rowKey="#{item.id}"
-                             rows="10"
-                             rowsPerPageTemplate="10,20,30,40,50"
-                             >
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListHiringTitle_id}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.id}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListHiringTitle_jobName}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.jobName}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListHiringTitle_numberOfApplicants}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.applicationList.size()}"/>
-                    </p:column>
-                </p:dataTable>
-            
+                        <p:ajax event="rowSelect" update="viewButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHiringTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHiringTitle_jobName}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.jobName}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHiringTitle_numberOfApplicants}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.applicationList.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton id="viewButton"
+                                             icon="ui-icon-search"
+                                             value="#{bundle.View}"
+                                             action="hiringView.xhtml">
+                            </p:commandButton>
+                        </p:column>
+                       
+                    </p:dataTable>
+                </p:panel>
+                
             </h:form>
         </ui:define>
     </ui:composition>

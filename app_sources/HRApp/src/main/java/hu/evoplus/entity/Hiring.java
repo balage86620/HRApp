@@ -6,6 +6,7 @@
 package hu.evoplus.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -32,13 +33,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "hiring")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Hiring.findAll", query = "SELECT h FROM Hiring h")
-    , @NamedQuery(name = "Hiring.findById", query = "SELECT h FROM Hiring h WHERE h.id = :id")
-    , @NamedQuery(name = "Hiring.findByJobName", query = "SELECT h FROM Hiring h WHERE h.jobName = :jobName")
-    , @NamedQuery(name = "Hiring.findByJobDescription", query = "SELECT h FROM Hiring h WHERE h.jobDescription = :jobDescription")
-    , @NamedQuery(name = "Hiring.findByJobLocation", query = "SELECT h FROM Hiring h WHERE h.jobLocation = :jobLocation")
-    , @NamedQuery(name = "Hiring.findBySalaryCategory", query = "SELECT h FROM Hiring h WHERE h.salaryCategory = :salaryCategory")
-    , @NamedQuery(name = "Hiring.findByJobId", query = "SELECT h FROM Hiring h WHERE h.jobId = :jobId")})
+    @NamedQuery(name = "Hiring.findAll", query = "SELECT h FROM Hiring h"),
+    @NamedQuery(name = "Hiring.findById", query = "SELECT h FROM Hiring h WHERE h.id = :id"),
+    @NamedQuery(name = "Hiring.findByJobName", query = "SELECT h FROM Hiring h WHERE h.jobName = :jobName"),
+    @NamedQuery(name = "Hiring.findByJobDescription", query = "SELECT h FROM Hiring h WHERE h.jobDescription = :jobDescription"),
+    @NamedQuery(name = "Hiring.findByJobLocation", query = "SELECT h FROM Hiring h WHERE h.jobLocation = :jobLocation"),
+    @NamedQuery(name = "Hiring.findBySalaryCategory", query = "SELECT h FROM Hiring h WHERE h.salaryCategory = :salaryCategory"),
+    @NamedQuery(name = "Hiring.findByJobId", query = "SELECT h FROM Hiring h WHERE h.jobId = :jobId")})
 public class Hiring implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -181,5 +182,14 @@ public class Hiring implements Serializable {
     public String toString() {
         return "hu.evoplus.entity.Hiring[ id=" + id + " ]";
     }
-    
+
+    public List<Application> getApplicationsByHiringId(Integer hiringId) {
+        List<Application> result = new ArrayList<>();
+        for (Application a : applicationList) {
+            if (hiringId.equals(a.getHiringId().id)) {
+                result.add(a);
+            }
+        }       
+        return result;
+    }
 }
