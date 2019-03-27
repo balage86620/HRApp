@@ -18,11 +18,12 @@ and open the template in the editor.
         <ui:define name="body">
             <h:form>
                 <p:panel >
-                    <p:commandButton value="#{bundle.CreateHiringTitle}"
-                                     type="button"
-                                     icon="ui-icon-plus"
-                                     style="float:right;">
-                    </p:commandButton>
+                    <p:button outcome="/faces/index.xhtml"
+                              icon="ui-icon-plus"
+                              value="#{bundle.CreateHiringTitle}"
+                              style="float:right;"
+                              >
+                    </p:button>
                 </p:panel>
                 <p:panel header="#{bundle.ListHiringTitle}">
                     <p:dataTable id="datalist" value="#{hiringController.items}" var="item"
@@ -32,6 +33,7 @@ and open the template in the editor.
                                  >
 
                         <p:ajax event="rowSelect" update="viewButton"/>
+                        <p:ajax event="rowUnselect" update="viewButton"/>
 
                         <p:column>
                             <f:facet name="header">
@@ -52,16 +54,17 @@ and open the template in the editor.
                             <h:outputText value="#{item.applicationList.size()}"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton id="viewButton"
-                                             icon="ui-icon-search"
-                                             value="#{bundle.View}"
-                                             action="hiringView.xhtml">
-                            </p:commandButton>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.View}"/>
+                            </f:facet>
+                            <h:outputLink value="hiringView.xhtml" id="viewButton">
+                                <p:button icon="ui-icon-search"></p:button>
+                            </h:outputLink>
+                            
                         </p:column>
-                       
                     </p:dataTable>
                 </p:panel>
-                
+
             </h:form>
         </ui:define>
     </ui:composition>
