@@ -3,6 +3,7 @@ package hu.evoplus.control;
 import hu.evoplus.entity.Application;
 import hu.evoplus.control.util.JsfUtil;
 import hu.evoplus.control.util.JsfUtil.PersistAction;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +18,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.SelectEvent;
 
 @Named("applicationController")
 @SessionScoped
@@ -118,6 +120,14 @@ public class ApplicationController implements Serializable {
 
     public List<Application> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+    }
+    
+    public void onRowSelectNavigate(SelectEvent event) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("applicationView.xhtml?id=" + selected);
+        } catch (IOException ex) {
+            Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FacesConverter(forClass = Application.class)

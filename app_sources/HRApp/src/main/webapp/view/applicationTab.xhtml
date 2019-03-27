@@ -8,6 +8,7 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
@@ -17,7 +18,59 @@ and open the template in the editor.
 
         <ui:define name="body">
             <h:form>
-                sdfghjkléá
+                <p:panel>
+                    <h:panelGrid columns="2" style="margin: 0 auto;">
+                        <f:facet name="header">
+                            <h:outputLabel value="Jelentkezések áttekintése" style="font-size:16px;"/>
+                        </f:facet>
+                            <p:button value="#{bundle.CreateNewApplicant}"
+                                      icon="ui-icon-plus"
+                                      outcome="newApplication.xhtml"
+                                      style="float:right">
+                            </p:button> 
+                    </h:panelGrid>
+                    <p:dataTable id="datalist" value="#{applicationController.items}" var="item"
+                                 selectionMode="single" selection="#{applicationController.selected}"
+                                 rowKey="#{item.id}"
+                                 style="overflow-y: scroll;"
+                                 >
+                        
+                        <p:ajax event="rowSelect" listener="#{applicationController.onRowSelectNavigate(event)}"/>
+                        
+                        <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                            <f:facet name="header">
+                                <h:outputText value="Jelentkezés azonosítója"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.personId.name}" filterBy="#{item.personId.name}">
+                            <f:facet name="header">
+                                <h:outputText value="Jelentkező"/>
+                            </f:facet>
+                            <h:outputText value="#{item.personId.name}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.hiringId.jobName}" filterBy="#{item.hiringId.jobName}">
+                            <f:facet name="header">
+                                <h:outputText value="Munkakör"/>
+                            </f:facet>
+                            <h:outputText value="#{item.hiringId.jobName}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.dateOfApplication}" filterBy="#{item.dateOfApplication}">
+                            <f:facet name="header">
+                                <h:outputText value="Jelentkezés dátuma"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateOfApplication}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column sortBy="#{item.status}" filterBy="#{item.status}">
+                            <f:facet name="header">
+                                <h:outputText value="Interjú státusz"/>
+                            </f:facet>
+                            <h:outputText value="#{item.status}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
             </h:form>
         </ui:define>
     </ui:composition>
