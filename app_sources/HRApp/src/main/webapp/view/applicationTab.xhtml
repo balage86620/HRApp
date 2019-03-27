@@ -21,7 +21,7 @@ and open the template in the editor.
                 <p:panel>
                     <h:panelGrid columns="2" style="margin: 0 auto;">
                         <f:facet name="header">
-                            <h:outputLabel value="Jelentkezések áttekintése" style="font-size:16px;"/>
+                            <h:outputLabel value="#{bundle.ListApplicationTitle}" style="font-size:16px;"/>
                         </f:facet>
                             <p:button value="#{bundle.CreateNewApplicant}"
                                       icon="ui-icon-plus"
@@ -39,25 +39,25 @@ and open the template in the editor.
                         
                         <p:column sortBy="#{item.id}" filterBy="#{item.id}">
                             <f:facet name="header">
-                                <h:outputText value="Jelentkezés azonosítója"/>
+                                <h:outputText value="#{bundle.ApplicationId}"/>
                             </f:facet>
                             <h:outputText value="#{item.id}"/>
                         </p:column>
                         <p:column sortBy="#{item.personId.name}" filterBy="#{item.personId.name}">
                             <f:facet name="header">
-                                <h:outputText value="Jelentkező"/>
+                                <h:outputText value="#{bundle.ApplicantName}"/>
                             </f:facet>
                             <h:outputText value="#{item.personId.name}"/>
                         </p:column>
                         <p:column sortBy="#{item.hiringId.jobName}" filterBy="#{item.hiringId.jobName}">
                             <f:facet name="header">
-                                <h:outputText value="Munkakör"/>
+                                <h:outputText value="#{bundle.JobName}"/>
                             </f:facet>
                             <h:outputText value="#{item.hiringId.jobName}"/>
                         </p:column>
                         <p:column sortBy="#{item.dateOfApplication}" filterBy="#{item.dateOfApplication}">
                             <f:facet name="header">
-                                <h:outputText value="Jelentkezés dátuma"/>
+                                <h:outputText value="#{bundle.ApplicationDate}"/>
                             </f:facet>
                             <h:outputText value="#{item.dateOfApplication}">
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
@@ -65,7 +65,7 @@ and open the template in the editor.
                         </p:column>
                         <p:column sortBy="#{item.status}" filterBy="#{item.status}">
                             <f:facet name="header">
-                                <h:outputText value="Interjú státusz"/>
+                                <h:outputText value="#{bundle.ApplicationStatus}"/>
                             </f:facet>
                             <h:outputText value="#{item.status}"/>
                         </p:column>
