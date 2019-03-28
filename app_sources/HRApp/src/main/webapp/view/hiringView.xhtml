@@ -14,52 +14,142 @@
         <ui:define name="body">
 
             <h:form id="HiringView">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{hiringController.selected != null}">
-                        <h:outputText value="#{bundle.ViewHiringLabel_id}"/>
-                        <h:outputText value="#{hiringController.selected.id}" title="#{bundle.ViewHiringTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewHiringLabel_jobName}"/>
-                        <h:outputText value="#{hiringController.selected.jobName}" title="#{bundle.ViewHiringTitle_jobName}"/>
-                        <h:outputText value="#{bundle.ViewHiringLabel_jobDescription}"/>
-                        <h:outputText value="#{hiringController.selected.jobDescription}" title="#{bundle.ViewHiringTitle_jobDescription}"/>
-                        <h:outputText value="#{bundle.ViewHiringLabel_jobLocation}"/>
-                        <h:outputText value="#{hiringController.selected.jobLocation}" title="#{bundle.ViewHiringTitle_jobLocation}"/>
-                        <h:outputText value="#{bundle.ViewHiringLabel_salaryCategory}"/>
-                        <h:outputText value="#{hiringController.selected.salaryCategory}" title="#{bundle.ViewHiringTitle_salaryCategory}"/>
-                        <h:outputText value="#{bundle.ViewHiringLabel_jobId}"/>
-                        <h:outputText value="#{hiringController.selected.jobId}" title="#{bundle.ViewHiringTitle_jobId}"/>
-                    </p:panelGrid>
-                </h:panelGroup>
-                <p:panel header="#{bundle.ListApplicationTitle}" rendered="#{hiringController.selected != null}">
-                    <p:dataTable id="datalist" value="#{hiringController.selected.applicationList}" var="item"
-                                 selectionMode="single" selection="#{applicationController.selected}"
-                                 paginator="false"
-                                 rowKey="#{item.id}"
-                                 >
+                <p:tabMenu activeIndex="#{param.i}" >
+                    <p:menuitem value="#{bundle.ViewHiringLabel_title}" update="display">
+                        <f:param name="i" value="0"/>
+                    </p:menuitem>
+                    <p:menuitem value="#{bundle.ViewHiringLabel_modify}" update="display">
+                        <f:param name="i" value="1"/>
+                    </p:menuitem>
+                </p:tabMenu>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column >
+                            <p:panel>
+                                <h:panelGroup id="display">
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListApplicationTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ViewPersonLabel_name}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.personId.name}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListApplicationTitle_dateOfApplication}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.dateOfApplication}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
+                                    <p:panelGrid rendered="#{hiringController.selected != null}">
+                                        <p:row>
+                                            <p:column colspan="2">
+                                                <h:outputText value="#{bundle.ViewHiringLabel_title}"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column >
+                                                <h:outputText value="#{bundle.ListHiringTitle_id}"/>
+                                            </p:column>
+                                            <p:column >
+                                                <h:outputText value="#{hiringController.selected.id}"
+                                                              title="#{bundle.ListHiringTitle_id}"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column >
+                                                <h:outputText value="#{bundle.ListHiringTitle_jobName}"/>
+                                            </p:column>
+                                            <p:column >
+                                                <h:outputText value="#{hiringController.selected.jobName}"
+                                                              title="#{bundle.ListHiringTitle_jobName}"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column >
+                                                <h:outputText value="#{bundle.ListHiringTitle_jobDescription}"/>
+                                            </p:column>
+                                            <p:column >
+                                                <h:outputText value="#{hiringController.selected.jobDescription}"
+                                                              title="#{bundle.ListHiringTitle_jobDescription}"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column >
+                                                <h:outputText value="#{bundle.ListHiringTitle_jobLocation}"/>
+                                            </p:column>
+                                            <p:column >
+                                                <h:outputText value="#{hiringController.selected.jobLocation}"
+                                                              title="#{bundle.ListHiringTitle_jobLocation}"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column >
+                                                <h:outputText value="#{bundle.ListHiringTitle_salaryCategory}"/>
+                                            </p:column>
+                                            <p:column >
+                                                <h:outputText value="#{hiringController.selected.salaryCategory}"
+                                                              title="#{bundle.ListHiringTitle_salaryCategory}"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column >
+                                                <h:outputText value="#{bundle.ListHiringTitle_jobId}"/>
+                                            </p:column>
+                                            <p:column >
+                                                <h:outputText value="#{hiringController.selected.jobId}"
+                                                              title="#{bundle.ListHiringTitle_jobId}"/>
+                                            </p:column>
+                                        </p:row>
 
-                    </p:dataTable>
-                </p:panel>
+                                    </p:panelGrid>
+                                </h:panelGroup>
+                                <p:commandButton
+                                    value="Prev"
+                                    icon="pi fa-arrow-left" 
+                                    title="Previous Hiring"
+                                    onclick="#{hiringController.setSelected(hiringController.getHiring(hiringController.selected.id - 1))}"
+                                    update="display"
+                                    >
+                                </p:commandButton>
+                                <p:button
+                                    value="Next"
+                                    icon="fa fa-arrow-right"
+                                    title="Next Hiring"
+                                    onclick="#{hiringController.setSelected(hiringController.getHiring(hiringController.selected.id + 1))}"
+                                    
+                                    >
+                                </p:button>
+                            </p:panel>
+                        </p:column>
+                        <p:column>
+                            <p:panel id="personData">
+                                PersonData
+                            </p:panel>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:panel header="#{bundle.ListApplicationTitle}" rendered="#{hiringController.selected != null}">
+                                <p:dataTable id="datalist" value="#{hiringController.selected.applicationList}" var="item"
+                                             selectionMode="single" selection="#{applicationController.selected}"
+                                             paginator="false"
+                                             rowKey="#{item.id}"
+                                             >
+                                    <p:ajax event="rowSelect"/>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ApplicationId}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ApplicantName}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.personId.name}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ApplicationDate}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.dateOfApplication}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:panel>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>
