@@ -30,8 +30,8 @@
 
                                     <p:panelGrid rendered="#{hiringController.selected != null}">
                                         <p:row>
-                                            <p:column colspan="2">
-                                                <h:outputText value="#{bundle.ViewHiringLabel_title}"/>
+                                            <p:column colspan="2" >
+                                                <h:outputText value="#{bundle.ViewHiringLabel_title}" />
                                             </p:column>
                                         </p:row>
                                         <p:row>
@@ -91,27 +91,38 @@
 
                                     </p:panelGrid>
                                 </h:panelGroup>
+
                                 <p:commandButton
-                                    value="Prev"
-                                    icon="pi fa-arrow-left" 
+                                    icon="pi pi-arrow-left" 
                                     title="Previous Hiring"
-                                    onclick="#{hiringController.setSelected(hiringController.getHiring(hiringController.selected.id - 1))}"
-                                    update="display"
+                                    actionListener="#{hiringController.setSelected(hiringController.getHiring(Math.min(1,hiringController.selected.id - 1)))}"
+                                    update="HiringView"
                                     >
                                 </p:commandButton>
-                                <p:button
-                                    value="Next"
-                                    icon="fa fa-arrow-right"
+                                <p:commandButton
+                                    icon="pi pi-arrow-right"
                                     title="Next Hiring"
-                                    onclick="#{hiringController.setSelected(hiringController.getHiring(hiringController.selected.id + 1))}"
-                                    
+                                    actionListener="#{hiringController.setSelected(hiringController.getHiring(hiringController.selected.id + 1))}"
+                                    update="HiringView"
                                     >
-                                </p:button>
+                                </p:commandButton>
+
                             </p:panel>
                         </p:column>
                         <p:column>
-                            <p:panel id="personData">
-                                PersonData
+                            <p:panel id="personData" rendered="#{personController.selected != null}">
+                                <p:carousel value="#{applicationController.selected.personId}"
+                                            headerText="Responsive" var="person"
+                                            itemStyle="text-align:center"
+                                            >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.PersonData}"/> 
+                                    </f:facet>
+                                    <p:panelGrid columns="2">
+                                        <h:outputText value="#{bundle.PersonId}"/>
+                                        <h:outputText value="#{person.id}"/>
+                                    </p:panelGrid>
+                                </p:carousel>
                             </p:panel>
                         </p:column>
                     </p:row>
@@ -123,7 +134,9 @@
                                              paginator="false"
                                              rowKey="#{item.id}"
                                              >
-                                    <p:ajax event="rowSelect"/>
+                                    <p:ajax event="rowSelect"
+                                            listener="#{personController.setSelected(applicationController.selected.personId)}"
+                                            update=":HiringView:personData"/>
                                     <p:column>
                                         <f:facet name="header">
                                             <h:outputText value="#{bundle.ApplicationId}"/>
