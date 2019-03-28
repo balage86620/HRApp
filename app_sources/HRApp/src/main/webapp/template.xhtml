@@ -18,11 +18,14 @@
             <p:layoutUnit position="center">
                 <h:form id="menuForm">
                     <p:tabMenu activeIndex="#{param.i}">
-                        <p:menuitem value="#{bundle.ViewHiringShowAllLink}" outcome="/view/hiringTab">
+                        <p:menuitem value="#{bundle.ViewPersonShowAllLink}" outcome="/view/personsTab">
                             <f:param name="i" value="0"/>
                         </p:menuitem>
-                        <p:menuitem value="#{bundle.ViewApplicationShowAllLink}" outcome="/view/applicationTab">
+                        <p:menuitem value="#{bundle.ViewHiringShowAllLink}" outcome="/view/hiringTab">
                             <f:param name="i" value="1"/>
+                        </p:menuitem>
+                        <p:menuitem value="#{bundle.ViewApplicationShowAllLink}" outcome="/view/applicationTab">
+                            <f:param name="i" value="2"/>
                         </p:menuitem>
                     </p:tabMenu>
                 </h:form>
