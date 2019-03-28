@@ -17,15 +17,18 @@ and open the template in the editor.
 
         <ui:define name="body">
             <h:form>
-                <p:panel >
-                    <p:button outcome="/faces/index.xhtml"
-                              icon="ui-icon-plus"
-                              value="#{bundle.CreateHiringTitle}"
-                              style="float:right;"
-                              >
-                    </p:button>
-                </p:panel>
-                <p:panel header="#{bundle.ListHiringTitle}">
+                <p:panel>
+
+                    <h:panelGrid columns="2" style="margin: 0 auto;">
+                        <f:facet name="header">
+                            <h:outputLabel value="#{bundle.ListHiringTitle}" style="font-size:16px;"/>
+                        </f:facet>
+                        <p:button value="#{bundle.CreateHiringTitle}"
+                                  icon="ui-icon-plus"
+                                  outcome="newHiring.xhtml"
+                                  style="float:right">
+                        </p:button> 
+                    </h:panelGrid>
                     <p:dataTable id="datalist" value="#{hiringController.items}" var="item"
                                  selectionMode="single" selection="#{hiringController.selected}"
                                  paginator="false"
@@ -35,19 +38,19 @@ and open the template in the editor.
                         <p:ajax event="rowSelect" update="viewButton"/>
                         <p:ajax event="rowUnselect" update="viewButton"/>
 
-                        <p:column>
+                        <p:column sortBy="#{item.id}" filterBy="#{item.id}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListHiringTitle_id}"/>
                             </f:facet>
                             <h:outputText value="#{item.id}"/>
                         </p:column>
-                        <p:column>
+                        <p:column sortBy="#{item.jobName}" filterBy="#{item.jobName}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListHiringTitle_jobName}"/>
                             </f:facet>
                             <h:outputText value="#{item.jobName}"/>
                         </p:column>
-                        <p:column>
+                        <p:column sortBy="#{item.applicationList.size()}" filterBy="#{item.applicationList.size()}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListHiringTitle_numberOfApplicants}"/>
                             </f:facet>
@@ -60,11 +63,10 @@ and open the template in the editor.
                             <h:outputLink value="hiringView.xhtml" id="viewButton">
                                 <p:button icon="ui-icon-search"></p:button>
                             </h:outputLink>
-                            
+
                         </p:column>
                     </p:dataTable>
                 </p:panel>
-
             </h:form>
         </ui:define>
     </ui:composition>
