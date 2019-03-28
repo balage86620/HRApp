@@ -36,12 +36,12 @@ and open the template in the editor.
                             
                             <h:outputLabel for="person" value="#{bundle.PersonName}:" />
                             <h:selectOneMenu value="#{personController.items}">
-                                <f:selectItems value="#{personController.items}" />
+                                <f:selectItems var="item" value="#{personController.items}" itemLabel="#{item.name}"/>
                             </h:selectOneMenu>
 
                             <h:outputLabel for="job" value="#{bundle.JobName}:" />
-                            <h:selectOneMenu value="#{hiringController.items}">
-                                <f:selectItems  value="#{hiringController.items}" />
+                            <h:selectOneMenu value="#{hiringController.items}" >
+                                <f:selectItems var="item" value="#{hiringController.items}" itemLabel="#{item.jobName}" />
                             </h:selectOneMenu>
                             
                             <h:outputLabel for="applicationDate" value="#{bundle.ApplicationDate}:" />
