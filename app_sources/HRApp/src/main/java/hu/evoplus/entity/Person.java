@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,7 +60,7 @@ public class Person implements Serializable {
     private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private List<Cv> cvList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId", fetch = FetchType.EAGER)
     private List<Application> applicationList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private List<Degree2person> degree2personList;

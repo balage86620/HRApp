@@ -124,7 +124,7 @@ public class ApplicationController implements Serializable {
     
     public void onRowSelectNavigate(SelectEvent event) {
         try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("applicationView.xhtml?id=" + selected);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("applicationView.xhtml?i=1");
         } catch (IOException ex) {
             Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
         }
