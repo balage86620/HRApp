@@ -7,19 +7,20 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition  template="/template.xhtml">
+        <f:param name="i" value="1"/>
         <ui:define name="title">
-            <h:outputText value="#{bundle.ViewHiringTitle}"></h:outputText>
+            <h:outputText value="#{bundle.View}"></h:outputText>
         </ui:define>
 
         <ui:define name="body">
 
             <h:form id="HiringView">
-                <p:tabMenu activeIndex="#{param.i}" >
+                <p:tabMenu activeIndex="#{param.j}" >
                     <p:menuitem value="#{bundle.ViewHiringLabel_title}" update="display">
-                        <f:param name="i" value="0"/>
+                        <f:param name="j" value="0"/>
                     </p:menuitem>
                     <p:menuitem value="#{bundle.ViewHiringLabel_modify}" update="display">
-                        <f:param name="i" value="1"/>
+                        <f:param name="j" value="1"/>
                     </p:menuitem>
                 </p:tabMenu>
                 <p:panelGrid>
@@ -93,14 +94,14 @@
                                 </h:panelGroup>
 
                                 <p:commandButton
-                                    icon="pi pi-arrow-left" 
+                                    value="Prev"
                                     title="Previous Hiring"
                                     actionListener="#{hiringController.setSelected(hiringController.getHiring(hiringController.selected.id - 1))}"
                                     update=":HiringView"
                                     >
                                 </p:commandButton>
                                 <p:commandButton
-                                    icon="pi pi-arrow-right"
+                                    value="Next"
                                     title="Next Hiring"
                                     actionListener="#{hiringController.setSelected(hiringController.getHiring(hiringController.selected.id + 1))}"
                                     update=":HiringView"
@@ -110,20 +111,37 @@
                             </p:panel>
                         </p:column>
                         <p:column>
-                            <p:panel id="personData" rendered="#{personController.selected != null}">
-                                <p:dataView value="#{applicationController.selected.personId}"
-                                            paginator="false"
-                                            var="person"
-                                            >
-                                    <p:dataViewGridItem >
-                                        <p:panel header="#{bundle.PersonData}">
-                                            <p:panelGrid columns="2">
-                                                <h:outputText value="#{bundle.PersonId}"/>
-                                                <h:outputText value="#{person.id}"/>
-                                            </p:panelGrid>
-                                        </p:panel>
-                                    </p:dataViewGridItem>
-                                </p:dataView>
+                            <p:panel id="personData" 
+                                     header="#{bundle.PersonData}"
+                                     rendered="#{personController.selected != null}">
+                                <p:panelGrid columns="2">
+                                    <h:outputText value="#{bundle.PersonId}"/>
+                                    <h:outputText value="#{applicationController.selected.personId.id}"/>
+                                    <h:outputText value="#{bundle.ApplicationDate}"/>
+                                    <h:outputText value="#{applicationController.selected.dateOfApplication}">
+                                        <f:convertDateTime pattern="#{bundle.DatePattern}" />
+                                    </h:outputText>
+                                    <h:outputText value="#{bundle.PersonName}"/>
+                                    <h:outputText value="#{applicationController.selected.personId.name}"/>
+                                    <h:outputText value="#{bundle.PersonEmail}"/>
+                                    <h:outputText value="#{applicationController.selected.personId.email}"/>
+                                    <h:outputText value="#{bundle.DegreeList}"/>
+                                    <p:dataList value="#{applicationController.selected.personId.degree2personList}"
+                                                var="degree">
+                                        <h:outputText value="#{degree.degreeId.name}"/>
+                                        <h:outputText value=" - "/>
+                                        <h:outputText value="#{degree.dateOfIssue}">
+                                            <f:convertDateTime pattern="#{bundle.DatePatternYear}" />
+                                        </h:outputText>
+                                    </p:dataList>
+                                    <h:outputText value="#{bundle.SkillList}"/>
+                                    <p:dataList value="#{applicationController.selected.personId.skill2personList}"
+                                                var="skill">
+                                        <h:outputText value="#{skill.skillId.name}"/>
+                                        <h:outputText value=" - "/>
+                                        <h:outputText value="#{skill.skillLevel}"/>
+                                    </p:dataList>
+                                </p:panelGrid>
                             </p:panel>
                         </p:column>
                     </p:row>

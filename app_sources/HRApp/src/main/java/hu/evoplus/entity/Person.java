@@ -62,9 +62,9 @@ public class Person implements Serializable {
     private List<Cv> cvList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId", fetch = FetchType.EAGER)
     private List<Application> applicationList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId", fetch=FetchType.LAZY)
     private List<Degree2person> degree2personList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId", fetch=FetchType.LAZY)
     private List<Skill2person> skill2personList;
 
     public Person() {
