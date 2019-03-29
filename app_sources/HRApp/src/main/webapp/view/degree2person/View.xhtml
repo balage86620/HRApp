@@ -16,7 +16,7 @@
                         <h:outputText value="#{degree2personController.selected.id}" title="#{bundle.ViewDegree2personTitle_id}"/>
                         <h:outputText value="#{bundle.ViewDegree2personLabel_dateOfIssue}"/>
                         <h:outputText value="#{degree2personController.selected.dateOfIssue}" title="#{bundle.ViewDegree2personTitle_dateOfIssue}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                            <f:convertDateTime pattern="#{bundle.DatePattern}" />
                         </h:outputText>
                         <h:outputText value="#{bundle.ViewDegree2personLabel_degreeId}"/>
                         <h:outputText value="#{degree2personController.selected.degreeId}" title="#{bundle.ViewDegree2personTitle_degreeId}"/>

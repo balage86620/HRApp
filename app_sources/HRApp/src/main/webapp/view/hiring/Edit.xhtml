@@ -46,7 +46,7 @@
                                 <h:outputText value="#{bundle.ListApplicationTitle_dateOfApplication}"/>
                             </f:facet>
                             <h:outputText value="#{item.dateOfApplication}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                <f:convertDateTime pattern="#{bundle.DatePattern}" />
                             </h:outputText>
                         </p:column>
                         <p:column>
@@ -60,7 +60,7 @@
                                 <h:outputText value="#{bundle.ListApplicationTitle_modificationDate}"/>
                             </f:facet>
                             <h:outputText value="#{item.modificationDate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                <f:convertDateTime pattern="#{bundle.DatePattern}" />
                             </h:outputText>
                         </p:column>
                         <p:column>

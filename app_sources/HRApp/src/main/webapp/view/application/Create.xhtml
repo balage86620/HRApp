@@ -15,11 +15,11 @@
                         <p:outputLabel value="#{bundle.CreateApplicationLabel_id}" for="id" />
                         <p:inputText id="id" value="#{applicationController.selected.id}" title="#{bundle.CreateApplicationTitle_id}" required="true" requiredMessage="#{bundle.CreateApplicationRequiredMessage_id}"/>
                         <p:outputLabel value="#{bundle.CreateApplicationLabel_dateOfApplication}" for="dateOfApplication" />
-                        <p:calendar id="dateOfApplication" pattern="MM/dd/yyyy" value="#{applicationController.selected.dateOfApplication}" title="#{bundle.EditApplicationTitle_dateOfApplication}"  showOn="button"/>
+                        <p:calendar id="dateOfApplication" pattern="#{bundle.DatePattern}" value="#{applicationController.selected.dateOfApplication}" title="#{bundle.EditApplicationTitle_dateOfApplication}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateApplicationLabel_status}" for="status" />
                         <p:inputText id="status" value="#{applicationController.selected.status}" title="#{bundle.CreateApplicationTitle_status}" />
                         <p:outputLabel value="#{bundle.CreateApplicationLabel_modificationDate}" for="modificationDate" />
-                        <p:calendar id="modificationDate" pattern="MM/dd/yyyy" value="#{applicationController.selected.modificationDate}" title="#{bundle.EditApplicationTitle_modificationDate}"  showOn="button"/>
+                        <p:calendar id="modificationDate" pattern="#{bundle.DatePattern}" value="#{applicationController.selected.modificationDate}" title="#{bundle.EditApplicationTitle_modificationDate}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateApplicationLabel_hiringId}" for="hiringId" />
                         <p:selectOneMenu id="hiringId" value="#{applicationController.selected.hiringId}" required="true" requiredMessage="#{bundle.EditApplicationRequiredMessage_hiringId}">
                             <f:selectItems value="#{hiringController.itemsAvailableSelectOne}"

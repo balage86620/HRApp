@@ -60,7 +60,7 @@ and open the template in the editor.
                                 <h:outputText value="#{bundle.HiringAddedAt}"/>
                             </f:facet>
                             <h:outputText value="#{item.addedAt}">
-                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                                <f:convertDateTime pattern="#{bundle.DatePattern}" />
                             </h:outputText>
                         </p:column>
                     </p:dataTable>

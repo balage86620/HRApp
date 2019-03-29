@@ -15,7 +15,7 @@
                         <p:outputLabel value="#{bundle.EditDegree2personLabel_id}" for="id" />
                         <p:inputText id="id" value="#{degree2personController.selected.id}" title="#{bundle.EditDegree2personTitle_id}" required="true" requiredMessage="#{bundle.EditDegree2personRequiredMessage_id}"/>
                         <p:outputLabel value="#{bundle.EditDegree2personLabel_dateOfIssue}" for="dateOfIssue" />
-                        <p:calendar id="dateOfIssue" pattern="MM/dd/yyyy" value="#{degree2personController.selected.dateOfIssue}" title="#{bundle.EditDegree2personTitle_dateOfIssue}"  showOn="button"/>
+                        <p:calendar id="dateOfIssue" pattern="#{bundle.DatePattern}" value="#{degree2personController.selected.dateOfIssue}" title="#{bundle.EditDegree2personTitle_dateOfIssue}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.EditDegree2personLabel_degreeId}" for="degreeId" />
                         <p:selectOneMenu id="degreeId" value="#{degree2personController.selected.degreeId}" required="true" requiredMessage="#{bundle.EditDegree2personRequiredMessage_degreeId}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>

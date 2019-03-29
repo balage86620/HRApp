@@ -16,7 +16,7 @@
                         <h:outputText value="#{interviewController.selected.id}" title="#{bundle.ViewInterviewTitle_id}"/>
                         <h:outputText value="#{bundle.ViewInterviewLabel_date}"/>
                         <h:outputText value="#{interviewController.selected.date}" title="#{bundle.ViewInterviewTitle_date}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                            <f:convertDateTime pattern="#{bundle.DatePattern}" />
                         </h:outputText>
                         <h:outputText value="#{bundle.ViewInterviewLabel_description}"/>
                         <h:outputText value="#{interviewController.selected.description}" title="#{bundle.ViewInterviewTitle_description}"/>

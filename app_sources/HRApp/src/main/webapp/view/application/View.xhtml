@@ -16,13 +16,13 @@
                         <h:outputText value="#{applicationController.selected.id}" title="#{bundle.ViewApplicationTitle_id}"/>
                         <h:outputText value="#{bundle.ViewApplicationLabel_dateOfApplication}"/>
                         <h:outputText value="#{applicationController.selected.dateOfApplication}" title="#{bundle.ViewApplicationTitle_dateOfApplication}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                            <f:convertDateTime pattern="#{bundle.DatePattern}" />
                         </h:outputText>
                         <h:outputText value="#{bundle.ViewApplicationLabel_status}"/>
                         <h:outputText value="#{applicationController.selected.status}" title="#{bundle.ViewApplicationTitle_status}"/>
                         <h:outputText value="#{bundle.ViewApplicationLabel_modificationDate}"/>
                         <h:outputText value="#{applicationController.selected.modificationDate}" title="#{bundle.ViewApplicationTitle_modificationDate}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                            <f:convertDateTime pattern="#{bundle.DatePattern}" />
                         </h:outputText>
                         <h:outputText value="#{bundle.ViewApplicationLabel_hiringId}"/>
                         <h:outputText value="#{applicationController.selected.hiringId}" title="#{bundle.ViewApplicationTitle_hiringId}"/>

@@ -15,7 +15,7 @@
                         <p:outputLabel value="#{bundle.EditInterviewLabel_id}" for="id" />
                         <p:inputText id="id" value="#{interviewController.selected.id}" title="#{bundle.EditInterviewTitle_id}" required="true" requiredMessage="#{bundle.EditInterviewRequiredMessage_id}"/>
                         <p:outputLabel value="#{bundle.EditInterviewLabel_date}" for="date" />
-                        <p:calendar id="date" pattern="MM/dd/yyyy" value="#{interviewController.selected.date}" title="#{bundle.EditInterviewTitle_date}"  showOn="button"/>
+                        <p:calendar id="date" pattern="#{bundle.DatePattern}" value="#{interviewController.selected.date}" title="#{bundle.EditInterviewTitle_date}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.EditInterviewLabel_description}" for="description" />
                         <p:inputText id="description" value="#{interviewController.selected.description}" title="#{bundle.EditInterviewTitle_description}" />
                         <p:outputLabel value="#{bundle.EditInterviewLabel_applicationId}" for="applicationId" />

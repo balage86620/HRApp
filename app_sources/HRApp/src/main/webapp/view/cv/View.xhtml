@@ -20,7 +20,7 @@
                         <h:outputText value="#{cvController.selected.language}" title="#{bundle.ViewCvTitle_language}"/>
                         <h:outputText value="#{bundle.ViewCvLabel_uploadDate}"/>
                         <h:outputText value="#{cvController.selected.uploadDate}" title="#{bundle.ViewCvTitle_uploadDate}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                            <f:convertDateTime pattern="#{bundle.DatePattern}" />
                         </h:outputText>
                         <h:outputText value="#{bundle.ViewCvLabel_personId}"/>
                         <h:outputText value="#{cvController.selected.personId}" title="#{bundle.ViewCvTitle_personId}"/>

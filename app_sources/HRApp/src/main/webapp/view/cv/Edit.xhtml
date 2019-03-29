@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.EditCvLabel_language}" for="language" />
                         <p:inputText id="language" value="#{cvController.selected.language}" title="#{bundle.EditCvTitle_language}" required="true" requiredMessage="#{bundle.EditCvRequiredMessage_language}"/>
                         <p:outputLabel value="#{bundle.EditCvLabel_uploadDate}" for="uploadDate" />
-                        <p:calendar id="uploadDate" pattern="MM/dd/yyyy" value="#{cvController.selected.uploadDate}" title="#{bundle.EditCvTitle_uploadDate}" required="true" requiredMessage="#{bundle.EditCvRequiredMessage_uploadDate}" showOn="button"/>
+                        <p:calendar id="uploadDate" pattern="#{bundle.DatePattern}" value="#{cvController.selected.uploadDate}" title="#{bundle.EditCvTitle_uploadDate}" required="true" requiredMessage="#{bundle.EditCvRequiredMessage_uploadDate}" showOn="button"/>
                         <p:outputLabel value="#{bundle.EditCvLabel_personId}" for="personId" />
                         <p:selectOneMenu id="personId" value="#{cvController.selected.personId}" required="true" requiredMessage="#{bundle.EditCvRequiredMessage_personId}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>

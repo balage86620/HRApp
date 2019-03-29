@@ -111,18 +111,19 @@
                         </p:column>
                         <p:column>
                             <p:panel id="personData" rendered="#{personController.selected != null}">
-                                <p:carousel value="#{applicationController.selected.personId}"
-                                            headerText="Responsive" var="person"
-                                            itemStyle="text-align:center"
+                                <p:dataView value="#{applicationController.selected.personId}"
+                                            paginator="false"
+                                            var="person"
                                             >
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.PersonData}"/> 
-                                    </f:facet>
-                                    <p:panelGrid columns="2">
-                                        <h:outputText value="#{bundle.PersonId}"/>
-                                        <h:outputText value="#{person.id}"/>
-                                    </p:panelGrid>
-                                </p:carousel>
+                                    <p:dataViewGridItem >
+                                        <p:panel header="#{bundle.PersonData}">
+                                            <p:panelGrid columns="2">
+                                                <h:outputText value="#{bundle.PersonId}"/>
+                                                <h:outputText value="#{person.id}"/>
+                                            </p:panelGrid>
+                                        </p:panel>
+                                    </p:dataViewGridItem>
+                                </p:dataView>
                             </p:panel>
                         </p:column>
                     </p:row>
@@ -154,7 +155,7 @@
                                             <h:outputText value="#{bundle.ApplicationDate}"/>
                                         </f:facet>
                                         <h:outputText value="#{item.dateOfApplication}">
-                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                            <f:convertDateTime pattern="#{bundle.DatePattern}" />
                                         </h:outputText>
                                     </p:column>
 
