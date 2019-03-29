@@ -95,15 +95,15 @@
                                 <p:commandButton
                                     icon="pi pi-arrow-left" 
                                     title="Previous Hiring"
-                                    actionListener="#{hiringController.setSelected(hiringController.getHiring(Math.min(1,hiringController.selected.id - 1)))}"
-                                    update="HiringView"
+                                    actionListener="#{hiringController.setSelected(hiringController.getHiring(hiringController.selected.id - 1))}"
+                                    update=":HiringView"
                                     >
                                 </p:commandButton>
                                 <p:commandButton
                                     icon="pi pi-arrow-right"
                                     title="Next Hiring"
                                     actionListener="#{hiringController.setSelected(hiringController.getHiring(hiringController.selected.id + 1))}"
-                                    update="HiringView"
+                                    update=":HiringView"
                                     >
                                 </p:commandButton>
 

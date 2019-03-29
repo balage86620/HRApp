@@ -27,11 +27,14 @@
             <version>4.3.1.Final</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.primefaces.extensions/primefaces-extensions -->
         <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>5.0</version>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>6.2.3</version>
         </dependency>
+
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
