@@ -1,11 +1,14 @@
 package hu.evoplus.control;
 
+import hu.evoplus.bl.Mapper;
 import hu.evoplus.entity.Hiring;
 import hu.evoplus.control.util.JsfUtil;
 import hu.evoplus.control.util.JsfUtil.PersistAction;
+import hu.evoplus.dto.HiringDTO;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,17 +29,17 @@ public class HiringController implements Serializable {
 
     @EJB
     private hu.evoplus.control.HiringFacade ejbFacade;
-    private List<Hiring> items = null;
-    private Hiring selected;
+    private List<HiringDTO> items = new ArrayList<>();
+    private HiringDTO selected;
 
     public HiringController() {
     }
 
-    public Hiring getSelected() {
+    public HiringDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Hiring selected) {
+    public void setSelected(HiringDTO selected) {
         this.selected = selected;
     }
 
@@ -50,8 +53,8 @@ public class HiringController implements Serializable {
         return ejbFacade;
     }
 
-    public Hiring prepareCreate() {
-        selected = new Hiring();
+    public HiringDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromHiringEntityToDTO(new Hiring());
         initializeEmbeddableKey();
         return selected;
     }
@@ -75,9 +78,12 @@ public class HiringController implements Serializable {
         }
     }
 
-    public List<Hiring> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<HiringDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Hiring> hirings = getFacade().findAll();
+            for(Hiring h : hirings) {
+                items.add(Mapper.getMapper().convertFromHiringEntityToDTO(h));
+            }
         }
         return items;
     }
@@ -85,11 +91,12 @@ public class HiringController implements Serializable {
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
+            Hiring hiring = Mapper.getMapper().convertFromHiringDTOToEntity(selected);
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(hiring);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(hiring);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

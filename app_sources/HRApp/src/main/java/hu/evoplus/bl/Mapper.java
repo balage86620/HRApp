@@ -5,8 +5,14 @@
  */
 package hu.evoplus.bl;
 
+import hu.evoplus.dto.HiringDTO;
+import hu.evoplus.dto.HiringDTO.HiringDTOBuilder;
 import hu.evoplus.dto.PersonDTO;
 import hu.evoplus.dto.PersonDTO.PersonDTOBuilder;
+import hu.evoplus.dto.ApplicationDTO;
+import hu.evoplus.dto.ApplicationDTO.ApplicationDTOBuilder;
+import hu.evoplus.entity.Application;
+import hu.evoplus.entity.Hiring;
 import hu.evoplus.entity.Person;
 
 /**
@@ -14,16 +20,29 @@ import hu.evoplus.entity.Person;
  * @author lkg
  */
 public final class Mapper {
+
     private static Mapper mapper = new Mapper();
 
     private Mapper() {
     }
-    
+
     public static Mapper getMapper() {
         return mapper;
     }
-    
-    public PersonDTO getPersonToDTO(Person person) {
+
+    public ApplicationDTO convertFromApplicationEntityToDTO(Application application) {
+        return new ApplicationDTOBuilder()
+                .withDateOfApplication(application.getDateOfApplication())
+                .withHiringId(application.getHiringId())
+                .withId(application.getId())
+                .withInterviewList(application.getInterviewList())
+                .withModificationDate(application.getModificationDate())
+                .withPersonId(application.getPersonId())
+                .withStatus(application.getStatus())
+                .build();
+    }
+
+    public PersonDTO convertFromPersonEntityToDTO(Person person) {
         return new PersonDTOBuilder()
                 .withApplicants(person.getApplicationList())
                 .withCvList(person.getCvList())
@@ -36,17 +55,61 @@ public final class Mapper {
                 .withUserName(person.getUserName())
                 .build();
     }
-    public Person getPersonDTOToEntity(PersonDTO dto) {
+
+    public HiringDTO convertFromHiringEntityToDTO(Hiring hiring) {
+        return new HiringDTOBuilder()
+                .withAddedAt(hiring.getAddedAt())
+                .withApplicationList(hiring.getApplicationList())
+                .withDegree2hiringList(hiring.getDegree2hiringList())
+                .withId(hiring.getId())
+                .withJobDescription(hiring.getJobDescription())
+                .withJobId(hiring.getJobId())
+                .withJobLocation(hiring.getJobLocation())
+                .withJobName(hiring.getJobName())
+                .withSalaryCategory(hiring.getSalaryCategory())
+                .withSkill2hiringList(hiring.getSkill2hiringList())
+                .build();
+    }
+
+    public Hiring convertFromHiringDTOToEntity(HiringDTO data) {
+        Hiring hiring = new Hiring();
+        hiring.setAddedAt(data.getAddedAt());
+        hiring.setApplicationList(data.getApplicationList());
+        hiring.setDegree2hiringList(data.getDegree2hiringList());
+        hiring.setId(data.getId());
+        hiring.setJobDescription(data.getJobDescription());
+        hiring.setJobId(data.getJobId());
+        hiring.setJobLocation(data.getJobLocation());
+        hiring.setJobName(data.getJobName());
+        hiring.setSalaryCategory(data.getSalaryCategory());
+        hiring.setSkill2hiringList(data.getSkill2hiringList());
+        return hiring;
+    }
+
+    public Application convertFromApplicationDTOToEntity(ApplicationDTO data) {
+        Application application = new Application();
+        application.setDateOfApplication(data.getDateOfApplication());
+        application.setHiringId(data.getHiringId());
+        application.setId(data.getId());
+        application.setInterviewList(data.getInterviewList());
+        application.setModificationDate(data.getModificationDate());
+        application.setPersonId(data.getPersonId());
+        application.setStatus(data.getStatus());
+        return application;
+    }
+
+    public Person convertFromPersonDTOToEntity(PersonDTO data) {
         Person person = new Person();
-        person.setApplicationList(dto.getApplicationList());
-        person.setCvList(dto.getCvList());
-        person.setDegree2personList(dto.getDegree2personList());
-        person.setEmail(dto.getEmail());
-        person.setId(dto.getId());
-        person.setName(dto.getName());
-        person.setPassword(dto.getPassword());
-        person.setSkill2personList(dto.getSkill2personList());
-        person.setUserName(dto.getUserName());
+        person.setApplicationList(data.getApplicationList());
+        person.setCvList(data.getCvList());
+        person.setDegree2personList(data.getDegree2personList());
+        person.setEmail(data.getEmail());
+        person.setId(data.getId());
+        person.setName(data.getName());
+        person.setPassword(data.getPassword());
+        person.setSkill2personList(data.getSkill2personList());
+        person.setUserName(data.getUserName());
         return person;
     }
+
 }

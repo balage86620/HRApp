@@ -1,11 +1,14 @@
 package hu.evoplus.control;
 
+import hu.evoplus.bl.Mapper;
 import hu.evoplus.entity.Application;
 import hu.evoplus.control.util.JsfUtil;
 import hu.evoplus.control.util.JsfUtil.PersistAction;
+import hu.evoplus.dto.ApplicationDTO;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,17 +29,17 @@ public class ApplicationController implements Serializable {
 
     @EJB
     private hu.evoplus.control.ApplicationFacade ejbFacade;
-    private List<Application> items = null;
-    private Application selected;
+    private List<ApplicationDTO> items = new ArrayList<>();
+    private ApplicationDTO selected;
 
     public ApplicationController() {
     }
 
-    public Application getSelected() {
+    public ApplicationDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Application selected) {
+    public void setSelected(ApplicationDTO selected) {
         this.selected = selected;
     }
 
@@ -50,8 +53,8 @@ public class ApplicationController implements Serializable {
         return ejbFacade;
     }
 
-    public Application prepareCreate() {
-        selected = new Application();
+    public ApplicationDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromApplicationEntityToDTO(new Application());
         initializeEmbeddableKey();
         return selected;
     }
@@ -75,21 +78,25 @@ public class ApplicationController implements Serializable {
         }
     }
 
-    public List<Application> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<ApplicationDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Application> applications = getFacade().findAll();
+            for (Application a : applications) {
+                items.add(Mapper.getMapper().convertFromApplicationEntityToDTO(a));
+            }
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            Application application = Mapper.getMapper().convertFromApplicationDTOToEntity(selected);
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(application);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(application);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

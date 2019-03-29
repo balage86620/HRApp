@@ -52,7 +52,7 @@ public class PersonController implements Serializable {
     }
 
     public PersonDTO prepareCreate() {
-        selected = Mapper.getMapper().getPersonToDTO(new Person());
+        selected = Mapper.getMapper().convertFromPersonEntityToDTO(new Person());
         initializeEmbeddableKey();
         return selected;
     }
@@ -80,7 +80,7 @@ public class PersonController implements Serializable {
         if (items.isEmpty()) {
             List<Person> persons = getFacade().findAll();
             for(Person p : persons) {
-                items.add(Mapper.getMapper().getPersonToDTO(p));
+                items.add(Mapper.getMapper().convertFromPersonEntityToDTO(p));
             }
         }
         return items;
@@ -88,7 +88,7 @@ public class PersonController implements Serializable {
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
-            Person person = Mapper.getMapper().getPersonDTOToEntity(selected);
+            Person person = Mapper.getMapper().convertFromPersonDTOToEntity(selected);
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
