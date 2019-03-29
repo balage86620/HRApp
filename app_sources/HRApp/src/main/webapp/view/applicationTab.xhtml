@@ -34,18 +34,21 @@ and open the template in the editor.
                     <p:dialog position="center center" resizable="false" draggable="false" header="#{bundle.CreateNewApplication}" widgetVar="addDlg" minHeight="40">
                         <h:panelGrid columns="2" cellpadding="5">
                             
-                            <h:outputLabel for="person" value="#{bundle.PersonName}:" />
+                            <h:outputLabel value="#{bundle.PersonName}:" />
                             <h:selectOneMenu value="#{personController.items}">
                                 <f:selectItems var="item" value="#{personController.items}" itemLabel="#{item.name}"/>
                             </h:selectOneMenu>
 
-                            <h:outputLabel for="job" value="#{bundle.JobName}:" />
+                            <h:outputLabel value="#{bundle.JobName}:" />
                             <h:selectOneMenu value="#{hiringController.items}" >
                                 <f:selectItems var="item" value="#{hiringController.items}" itemLabel="#{item.jobName}" />
                             </h:selectOneMenu>
                             
-                            <h:outputLabel for="applicationDate" value="#{bundle.ApplicationDate}:" />
+                            <h:outputLabel value="#{bundle.ApplicationDate}:" />
                             <p:calendar id="applicationDate"/>
+                            
+                            <h:outputLabel value="#{bundle.ApplicationStatus}:" />
+                            <p:inputText id="applicationStatus"/>
 
                             <f:facet name="footer">
                                 <p:commandButton value="#{bundle.SaveButton}"/>

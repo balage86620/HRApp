@@ -28,21 +28,30 @@
                     </h:panelGrid>
 
                     <p:dialog position="center center" resizable="false" draggable="false" header="#{bundle.CreateNewPerson}" widgetVar="addDlg" minHeight="40">
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputLabel for="name" value="#{bundle.PersonName}:" />
-                            <p:inputText id="name" label="name" />
+                        <h:form enctype="multipart/form-data">
+                            <h:panelGrid columns="2" cellpadding="5">
 
-                            <h:outputLabel for="userName" value="#{bundle.PersonUserName}:" />
-                            <p:inputText id="userName" label="userName" />
+                                <h:outputLabel value="#{bundle.PersonName}:" />
+                                <p:inputText id="name" />
 
-                            <h:outputLabel for="email" value="#{bundle.PersonEmail}:" />
-                            <p:inputText id="email" label="email" />
+                                <h:outputLabel value="#{bundle.PersonUserName}:" />
+                                <p:inputText id="userName"/>
 
-                            <f:facet name="footer">
-                                <p:commandButton value="#{bundle.SaveButton}"/>
-                                <p:commandButton value="#{bundle.CancelButton}" onclick="PF('addDlg').hide();"/>
-                            </f:facet>  
-                        </h:panelGrid>
+                                <h:outputLabel value="#{bundle.PersonEmail}:" />
+                                <p:inputText id="email"/>
+
+                                <h:outputLabel value="#{bundle.UploadCV}:" />
+
+                                <p:fileUpload mode="simple"/> 
+
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="#{bundle.SaveButton}"/>
+                                    <p:commandButton value="#{bundle.CancelButton}" onclick="PF('addDlg').hide();"/>
+                                </f:facet>  
+
+                            </h:panelGrid>
+                        </h:form>
                     </p:dialog>
 
                     <p:dataTable id="datalist" value="#{personController.items}" var="item"
