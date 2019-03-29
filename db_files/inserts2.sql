@@ -113,11 +113,11 @@ INSERT INTO `evo_examdb`.`degree2person` (`date_of_issue`, `degree_id`, `person_
 INSERT INTO `evo_examdb`.`degree2person` (`date_of_issue`, `degree_id`, `person_id`) VALUES ('2019-02-05', '1', '9');
 INSERT INTO `evo_examdb`.`degree2person` (`date_of_issue`, `degree_id`, `person_id`) VALUES ('2019-03-04', '2', '10');
 
-INSERT INTO `evo_examdb`.`hiring` (`job_name`, `job_description`, `job_location`, `salary_category`, `job_id`) VALUES ('Junior Java Fejlesztő', 'leírás', 'Budapest', '200000-400000 HUF', '1');
-INSERT INTO `evo_examdb`.`hiring` (`job_name`, `job_description`, `job_location`, `salary_category`, `job_id`) VALUES ('Senior JavaEE Developer', 'description', 'Berlin', '3000-6000 EUR', '2');
-INSERT INTO `evo_examdb`.`hiring` (`job_name`, `job_description`, `job_location`, `salary_category`, `job_id`) VALUES ('Frontend fejlesztő', 'leírás', 'Budaörs', '300000 HUF', '3');
-INSERT INTO `evo_examdb`.`hiring` (`job_name`, `job_description`, `job_location`, `salary_category`, `job_id`) VALUES ('Senior ASP.NET Developer', 'description', 'Stockholm', '5000-10000 EUR', '4');
-INSERT INTO `evo_examdb`.`hiring` (`job_name`, `job_description`, `job_location`, `salary_category`, `job_id`) VALUES ('Senior C# Fejlesztő', 'leírás', 'Szeged', '500000-1000000 HUF', '5');
+INSERT INTO `evo_examdb`.`hiring` (`job_name`, `job_description`, `job_location`, `salary_category`, `added_at`, `job_id`) VALUES ('Junior Java Fejlesztő', 'leírás', 'Budapest', '200000-400000 HUF', '2018-01-08', '1');
+INSERT INTO `evo_examdb`.`hiring` (`job_name`, `job_description`, `job_location`, `salary_category`, `added_at`, `job_id`) VALUES ('Senior JavaEE Developer', 'description', 'Berlin', '3000-6000 EUR', '2018-02-15', '2');
+INSERT INTO `evo_examdb`.`hiring` (`job_name`, `job_description`, `job_location`, `salary_category`, `added_at`, `job_id`) VALUES ('Frontend fejlesztő', 'leírás', 'Budaörs', '300000 HUF', '2018-03-06', '3');
+INSERT INTO `evo_examdb`.`hiring` (`job_name`, `job_description`, `job_location`, `salary_category`, `added_at`, `job_id`) VALUES ('Senior ASP.NET Developer', 'description', 'Stockholm', '5000-10000 EUR', '2018-03-23', '4');
+INSERT INTO `evo_examdb`.`hiring` (`job_name`, `job_description`, `job_location`, `salary_category`, `added_at`, `job_id`) VALUES ('Senior C# Fejlesztő', 'leírás', 'Szeged', '500000-1000000 HUF', '2018-06-18', '5');
 
 INSERT INTO `evo_examdb`.`skill2hiring` (`hiring_id`, `skill_id`, `skill_level`) VALUES ('1', '3', '2');
 INSERT INTO `evo_examdb`.`skill2hiring` (`hiring_id`, `skill_id`, `skill_level`) VALUES ('1', '5', '3');

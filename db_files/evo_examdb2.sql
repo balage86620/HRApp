@@ -12,6 +12,7 @@ CREATE TABLE `evo_examdb`.`hiring` (
   `job_description` VARCHAR(2000) NULL,
   `job_location` VARCHAR(45) NULL,
   `salary_category` VARCHAR(500) NULL,
+  `added_at` DATE NULL,
   `job_id` INT NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB

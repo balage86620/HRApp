@@ -7,6 +7,7 @@ package hu.evoplus.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,6 +21,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,12 +36,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "hiring")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Hiring.findAll", query = "SELECT h FROM Hiring h"),
-    @NamedQuery(name = "Hiring.findById", query = "SELECT h FROM Hiring h WHERE h.id = :id"),
-    @NamedQuery(name = "Hiring.findByJobName", query = "SELECT h FROM Hiring h WHERE h.jobName = :jobName"),
-    @NamedQuery(name = "Hiring.findByJobDescription", query = "SELECT h FROM Hiring h WHERE h.jobDescription = :jobDescription"),
-    @NamedQuery(name = "Hiring.findByJobLocation", query = "SELECT h FROM Hiring h WHERE h.jobLocation = :jobLocation"),
-    @NamedQuery(name = "Hiring.findBySalaryCategory", query = "SELECT h FROM Hiring h WHERE h.salaryCategory = :salaryCategory"),
+    @NamedQuery(name = "Hiring.findAll", query = "SELECT h FROM Hiring h")
+    ,
+    @NamedQuery(name = "Hiring.findById", query = "SELECT h FROM Hiring h WHERE h.id = :id")
+    ,
+    @NamedQuery(name = "Hiring.findByJobName", query = "SELECT h FROM Hiring h WHERE h.jobName = :jobName")
+    ,
+    @NamedQuery(name = "Hiring.findByJobDescription", query = "SELECT h FROM Hiring h WHERE h.jobDescription = :jobDescription")
+    ,
+    @NamedQuery(name = "Hiring.findByJobLocation", query = "SELECT h FROM Hiring h WHERE h.jobLocation = :jobLocation")
+    ,
+    @NamedQuery(name = "Hiring.findBySalaryCategory", query = "SELECT h FROM Hiring h WHERE h.salaryCategory = :salaryCategory")
+    ,
     @NamedQuery(name = "Hiring.findByJobId", query = "SELECT h FROM Hiring h WHERE h.jobId = :jobId")})
 public class Hiring implements Serializable {
 
@@ -60,6 +69,9 @@ public class Hiring implements Serializable {
     @Size(max = 500)
     @Column(name = "salary_category")
     private String salaryCategory;
+    @Column(name = "added_at")
+    @Temporal(TemporalType.DATE)
+    private Date addedAt;
     @Basic(optional = false)
     @NotNull
     @Column(name = "job_id")
@@ -121,6 +133,14 @@ public class Hiring implements Serializable {
 
     public void setSalaryCategory(String salaryCategory) {
         this.salaryCategory = salaryCategory;
+    }
+
+    public Date getAddedAt() {
+        return addedAt;
+    }
+
+    public void setAddedAt(Date addedAt) {
+        this.addedAt = addedAt;
     }
 
     public int getJobId() {
@@ -189,7 +209,8 @@ public class Hiring implements Serializable {
             if (hiringId.equals(a.getHiringId().id)) {
                 result.add(a);
             }
-        }       
+        }
         return result;
     }
+
 }

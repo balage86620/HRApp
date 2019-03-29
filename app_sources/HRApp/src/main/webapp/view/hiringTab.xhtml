@@ -48,14 +48,21 @@ and open the template in the editor.
                                 <h:outputText value="#{bundle.ListHiringTitle_jobName}"/>
                             </f:facet>
                             <h:outputText value="#{item.jobName}"/>
-                        </p:column>
+                        </p:column>                       
                         <p:column sortBy="#{item.applicationList.size()}" filterBy="#{item.applicationList.size()}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListHiringTitle_numberOfApplicants}"/>
                             </f:facet>
                             <h:outputText value="#{item.applicationList.size()}"/>
                         </p:column>
-                        
+                        <p:column sortBy="#{item.addedAt}" filterBy="#{item.addedAt}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.HiringAddedAt}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.addedAt}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>
