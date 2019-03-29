@@ -1,8 +1,0 @@
-				<datasource jta="true" jndi-name="java:jboss/datasources/HRAppDS" pool-name="HRAppDS" enabled="true" use-ccm="false">
-                    <connection-url>jdbc:mysql://localhost:3306/evo_examdb?autoReconnect=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=UTF-8</connection-url>
-                    <driver>com.mysql</driver>
-                    <security>
-                        <user-name>root</user-name>
-                        <password>admin</password>
-                    </security>
-                </datasource>
