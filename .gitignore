@@ -1,3 +1,6 @@
 /app_sources/HRApp/lib
 /app_sources/HRApp/nb-configuration.xml
 /app_sources/HRApp/target/
+/app_sources/HRApp/HRApp-ear/target/
+/app_sources/HRApp/HRApp-ejb/target/
+/app_sources/HRApp/HRApp-web/target/
