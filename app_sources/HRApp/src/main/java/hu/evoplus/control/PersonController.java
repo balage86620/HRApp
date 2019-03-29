@@ -1,10 +1,13 @@
 package hu.evoplus.control;
 
+import hu.evoplus.bl.Mapper;
 import hu.evoplus.entity.Person;
 import hu.evoplus.control.util.JsfUtil;
 import hu.evoplus.control.util.JsfUtil.PersistAction;
+import hu.evoplus.dto.PersonDTO;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,17 +27,17 @@ public class PersonController implements Serializable {
 
     @EJB
     private hu.evoplus.control.PersonFacade ejbFacade;
-    private List<Person> items = null;
-    private Person selected;
+    private List<PersonDTO> items = new ArrayList<>();
+    private PersonDTO selected;
 
     public PersonController() {
     }
 
-    public Person getSelected() {
+    public PersonDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Person selected) {
+    public void setSelected(PersonDTO selected) {
         this.selected = selected;
     }
 
@@ -48,8 +51,8 @@ public class PersonController implements Serializable {
         return ejbFacade;
     }
 
-    public Person prepareCreate() {
-        selected = new Person();
+    public PersonDTO prepareCreate() {
+        selected = Mapper.getMapper().getPersonToDTO(new Person());
         initializeEmbeddableKey();
         return selected;
     }
@@ -73,21 +76,25 @@ public class PersonController implements Serializable {
         }
     }
 
-    public List<Person> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<PersonDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Person> persons = getFacade().findAll();
+            for(Person p : persons) {
+                items.add(Mapper.getMapper().getPersonToDTO(p));
+            }
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            Person person = Mapper.getMapper().getPersonDTOToEntity(selected);
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(person);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(person);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
