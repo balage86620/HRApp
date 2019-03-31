@@ -61,7 +61,7 @@ public class Hiring implements Serializable {
     @Size(max = 500)
     @Column(name = "salary_category")
     private String salaryCategory;
-    @Column(name = "modification_date")
+    @Column(name = "added_at")
     @Temporal(TemporalType.DATE)
     private Date addedAt;
     @Basic(optional = false)
