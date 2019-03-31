@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -58,6 +61,9 @@ public class Hiring implements Serializable {
     @Size(max = 500)
     @Column(name = "salary_category")
     private String salaryCategory;
+    @Column(name = "modification_date")
+    @Temporal(TemporalType.DATE)
+    private Date addedAt;
     @Basic(optional = false)
     @NotNull
     @Column(name = "job_id")
@@ -119,6 +125,14 @@ public class Hiring implements Serializable {
 
     public void setSalaryCategory(String salaryCategory) {
         this.salaryCategory = salaryCategory;
+    }
+
+    public Date getAddedAt() {
+        return addedAt;
+    }
+
+    public void setAddedAt(Date addedAt) {
+        this.addedAt = addedAt;
     }
 
     public int getJobId() {
