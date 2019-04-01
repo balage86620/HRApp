@@ -1,10 +1,12 @@
 package controller;
 
+import dto.PersonDTO;
 import model.Person;
 import util.JsfUtil;
 import util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -17,6 +19,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import process.Mapper;
 import repository.PersonFacade;
 
 @Named("personController")
@@ -24,18 +27,18 @@ import repository.PersonFacade;
 public class PersonController implements Serializable {
 
     @EJB
-    private repository.PersonFacade ejbFacade;
-    private List<Person> items = null;
-    private Person selected;
+    private PersonFacade ejbFacade;
+    private List<PersonDTO> items = new ArrayList<>();
+    private PersonDTO selected;
 
     public PersonController() {
     }
 
-    public Person getSelected() {
+    public PersonDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Person selected) {
+    public void setSelected(PersonDTO selected) {
         this.selected = selected;
     }
 
@@ -49,8 +52,8 @@ public class PersonController implements Serializable {
         return ejbFacade;
     }
 
-    public Person prepareCreate() {
-        selected = new Person();
+    public PersonDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromPersonEntityToDTO(new Person());
         initializeEmbeddableKey();
         return selected;
     }
@@ -58,7 +61,7 @@ public class PersonController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PersonCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -70,25 +73,29 @@ public class PersonController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("PersonDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Person> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<PersonDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Person> persons = getFacade().findAll();
+            for (Person p : persons) {
+                items.add(Mapper.getMapper().convertFromPersonEntityToDTO(p));
+            }
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            Person person = Mapper.getMapper().convertFromPersonDTOToEntity(selected);
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(person);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(person);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

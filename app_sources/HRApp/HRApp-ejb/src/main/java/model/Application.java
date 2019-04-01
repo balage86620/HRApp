@@ -7,6 +7,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,9 +57,9 @@ public class Application implements Serializable {
     @ManyToOne(optional = false)
     private Hiring hiringId;
     @JoinColumn(name = "person_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Person personId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "applicationId")
     private List<Interview> interviewList;
 
     public Application() {
@@ -147,7 +148,7 @@ public class Application implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Application[ id=" + id + " ]";
+        return "hu.evoplus.entity.Application[ id=" + id + " ]";
     }
-
+    
 }

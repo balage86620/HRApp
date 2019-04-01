@@ -58,13 +58,13 @@ public class Person implements Serializable {
     @Size(max = 45)
     @Column(name = "email")
     private String email;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    @OneToMany(mappedBy = "personId")
     private List<Cv> cvList;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "personId")
+    @OneToMany(mappedBy = "personId")
     private List<Application> applicationList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    @OneToMany(mappedBy = "personId")
     private List<Degree2person> degree2personList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    @OneToMany(mappedBy = "personId")
     private List<Skill2person> skill2personList;
 
     public Person() {

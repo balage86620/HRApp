@@ -3,8 +3,11 @@ package controller;
 import model.Cv;
 import util.JsfUtil;
 import util.JsfUtil.PersistAction;
+import dto.CvDTO;
+import process.Mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,19 +26,19 @@ import repository.CvFacade;
 @SessionScoped
 public class CvController implements Serializable {
 
-    @EJB
-    private repository.CvFacade ejbFacade;
-    private List<Cv> items = null;
-    private Cv selected;
+     @EJB
+    private CvFacade ejbFacade;
+    private List<CvDTO> items = new ArrayList<>();
+    private CvDTO selected;
 
     public CvController() {
     }
 
-    public Cv getSelected() {
+    public CvDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Cv selected) {
+    public void setSelected(CvDTO selected) {
         this.selected = selected;
     }
 
@@ -49,8 +52,8 @@ public class CvController implements Serializable {
         return ejbFacade;
     }
 
-    public Cv prepareCreate() {
-        selected = new Cv();
+    public CvDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromCvEntityToDTO(new Cv());
         initializeEmbeddableKey();
         return selected;
     }
@@ -58,7 +61,7 @@ public class CvController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CvCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -70,25 +73,29 @@ public class CvController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("CvDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Cv> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<CvDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Cv> cvs = getFacade().findAll();
+            for (Cv a : cvs) {
+                items.add(Mapper.getMapper().convertFromCvEntityToDTO(a));
+            }
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            Cv cv = Mapper.getMapper().convertFromCvDTOToEntity(selected);
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(cv);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(cv);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -161,5 +168,4 @@ public class CvController implements Serializable {
         }
 
     }
-
 }

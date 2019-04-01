@@ -7,8 +7,8 @@ package dto;
 
 /**
  *
- * @author lkg
+ * @author Win10
  */
-public class Skill2person {
+class AbstractDTO {
     
 }

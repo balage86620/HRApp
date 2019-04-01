@@ -1,11 +1,13 @@
 package controller;
 
+import dto.HiringDTO;
 import model.Hiring;
 import util.JsfUtil;
 import util.JsfUtil.PersistAction;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -19,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.event.SelectEvent;
+import process.Mapper;
 import repository.HiringFacade;
 
 @Named("hiringController")
@@ -26,18 +29,18 @@ import repository.HiringFacade;
 public class HiringController implements Serializable {
 
     @EJB
-    private repository.HiringFacade ejbFacade;
-    private List<Hiring> items = null;
-    private Hiring selected;
+    private HiringFacade ejbFacade;
+    private List<HiringDTO> items = new ArrayList<>();
+    private HiringDTO selected;
 
     public HiringController() {
     }
 
-    public Hiring getSelected() {
+    public HiringDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Hiring selected) {
+    public void setSelected(HiringDTO selected) {
         this.selected = selected;
     }
 
@@ -51,8 +54,8 @@ public class HiringController implements Serializable {
         return ejbFacade;
     }
 
-    public Hiring prepareCreate() {
-        selected = new Hiring();
+    public HiringDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromHiringEntityToDTO(new Hiring());
         initializeEmbeddableKey();
         return selected;
     }
@@ -60,7 +63,7 @@ public class HiringController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("HiringCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -72,13 +75,16 @@ public class HiringController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("HiringDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Hiring> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<HiringDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Hiring> hirings = getFacade().findAll();
+            for (Hiring h : hirings) {
+                items.add(Mapper.getMapper().convertFromHiringEntityToDTO(h));
+            }
         }
         return items;
     }
@@ -86,11 +92,12 @@ public class HiringController implements Serializable {
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
+            Hiring hiring = Mapper.getMapper().convertFromHiringDTOToEntity(selected);
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(hiring);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(hiring);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -122,6 +129,7 @@ public class HiringController implements Serializable {
     public List<Hiring> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
+
     public void onRowSelectNavigate(SelectEvent event) {
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("hiringView.xhtml");
@@ -129,6 +137,7 @@ public class HiringController implements Serializable {
             Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     @FacesConverter(forClass = Hiring.class)
     public static class HiringControllerConverter implements Converter {
 

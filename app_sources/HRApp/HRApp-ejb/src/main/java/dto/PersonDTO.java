@@ -10,12 +10,14 @@ import model.Cv;
 import model.Degree2person;
 import model.Skill2person;
 import java.util.List;
+import java.util.Objects;
+import process.ListMapper;
 
 /**
  *
  * @author lkg
  */
-public class PersonDTO {
+public class PersonDTO extends AbstractDTO {
 
     private Integer id;
     private String name;
@@ -23,9 +25,9 @@ public class PersonDTO {
     private String password;
     private String email;
     private List<Cv> cvList;
-    private List<Application> applicationList;
-    private List<Degree2person> degree2personList;
-    private List<Skill2person> skill2personList;
+    private List<ApplicationDTO> applicationList;
+    private List<Degree2personDTO> degree2personList;
+    private List<Skill2personDTO> skill2personList;
 
     private PersonDTO(PersonDTOBuilder builder) {
         this.id = builder.id;
@@ -34,9 +36,12 @@ public class PersonDTO {
         this.password = builder.password;
         this.email = builder.email;
         this.cvList = builder.cvList;
-        this.applicationList = builder.applicationList;
-        this.degree2personList = builder.degree2personList;
-        this.skill2personList = builder.skill2personList;
+        this.applicationList = ListMapper.getListMapper()
+                .convertFromApplicationEntityList(builder.applicationList);
+        this.degree2personList = ListMapper.getListMapper()
+                .convertFromDegree2personEntityList(builder.degree2personList);
+        this.skill2personList = ListMapper.getListMapper()
+                .convertFromSkill2personEntityList(builder.skill2personList);
     }
 
     public Integer getId() {
@@ -87,28 +92,90 @@ public class PersonDTO {
         this.cvList = cvList;
     }
 
-    public List<Application> getApplicationList() {
+    public List<ApplicationDTO> getApplicationList() {
         return applicationList;
     }
 
-    public void setApplicationList(List<Application> applicationList) {
+    public void setApplicationList(List<ApplicationDTO> applicationList) {
         this.applicationList = applicationList;
     }
 
-    public List<Degree2person> getDegree2personList() {
+    public List<Degree2personDTO> getDegree2personList() {
         return degree2personList;
     }
 
-    public void setDegree2personList(List<Degree2person> degree2personList) {
+    public void setDegree2personList(List<Degree2personDTO> degree2personList) {
         this.degree2personList = degree2personList;
     }
 
-    public List<Skill2person> getSkill2personList() {
+    public List<Skill2personDTO> getSkill2personList() {
         return skill2personList;
     }
 
-    public void setSkill2personList(List<Skill2person> skill2personList) {
+    public void setSkill2personList(List<Skill2personDTO> skill2personList) {
         this.skill2personList = skill2personList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.userName);
+        hash = 97 * hash + Objects.hashCode(this.password);
+        hash = 97 * hash + Objects.hashCode(this.email);
+        hash = 97 * hash + Objects.hashCode(this.cvList);
+        hash = 97 * hash + Objects.hashCode(this.applicationList);
+        hash = 97 * hash + Objects.hashCode(this.degree2personList);
+        hash = 97 * hash + Objects.hashCode(this.skill2personList);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PersonDTO other = (PersonDTO) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.userName, other.userName)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.cvList, other.cvList)) {
+            return false;
+        }
+        if (!Objects.equals(this.applicationList, other.applicationList)) {
+            return false;
+        }
+        if (!Objects.equals(this.degree2personList, other.degree2personList)) {
+            return false;
+        }
+        if (!Objects.equals(this.skill2personList, other.skill2personList)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonDTO{" + "id=" + id + ", name=" + name + ", userName=" + userName + ", password=" + password + ", email=" + email + ", cvList=" + cvList + ", applicationList=" + applicationList + ", degree2personList=" + degree2personList + ", skill2personList=" + skill2personList + '}';
     }
 
     public static class PersonDTOBuilder {
@@ -125,7 +192,7 @@ public class PersonDTO {
 
         public PersonDTOBuilder() {
         }
-        
+
         public PersonDTOBuilder withID(Integer id) {
             this.id = id;
             return this;

@@ -1,11 +1,15 @@
 package controller;
 
+import process.Mapper;
 import model.Application;
 import util.JsfUtil;
 import util.JsfUtil.PersistAction;
+import dto.ApplicationDTO;
+import repository.ApplicationFacade;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,7 +22,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import repository.ApplicationFacade;
 import org.primefaces.event.SelectEvent;
 
 @Named("applicationController")
@@ -26,18 +29,18 @@ import org.primefaces.event.SelectEvent;
 public class ApplicationController implements Serializable {
 
     @EJB
-    private repository.ApplicationFacade ejbFacade;
-    private List<Application> items = null;
-    private Application selected;
+    private ApplicationFacade ejbFacade;
+    private List<ApplicationDTO> items = new ArrayList<>();
+    private ApplicationDTO selected;
 
     public ApplicationController() {
     }
 
-    public Application getSelected() {
+    public ApplicationDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Application selected) {
+    public void setSelected(ApplicationDTO selected) {
         this.selected = selected;
     }
 
@@ -51,8 +54,8 @@ public class ApplicationController implements Serializable {
         return ejbFacade;
     }
 
-    public Application prepareCreate() {
-        selected = new Application();
+    public ApplicationDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromApplicationEntityToDTO(new Application());
         initializeEmbeddableKey();
         return selected;
     }
@@ -60,7 +63,7 @@ public class ApplicationController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ApplicationCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -72,25 +75,29 @@ public class ApplicationController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ApplicationDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Application> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<ApplicationDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Application> applications = getFacade().findAll();
+            for (Application a : applications) {
+                items.add(Mapper.getMapper().convertFromApplicationEntityToDTO(a));
+            }
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            Application application = Mapper.getMapper().convertFromApplicationDTOToEntity(selected);
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(application);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(application);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -122,10 +129,10 @@ public class ApplicationController implements Serializable {
     public List<Application> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-    
+
     public void onRowSelectNavigate(SelectEvent event) {
         try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("applicationView.xhtml?id=" + selected);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("applicationView.xhtml?i=1");
         } catch (IOException ex) {
             Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
         }

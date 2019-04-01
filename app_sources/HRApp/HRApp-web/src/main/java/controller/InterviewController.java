@@ -1,10 +1,12 @@
 package controller;
 
+import dto.InterviewDTO;
 import model.Interview;
 import util.JsfUtil;
 import util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -17,6 +19,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import process.Mapper;
 import repository.InterviewFacade;
 
 @Named("interviewController")
@@ -24,18 +27,18 @@ import repository.InterviewFacade;
 public class InterviewController implements Serializable {
 
     @EJB
-    private repository.InterviewFacade ejbFacade;
-    private List<Interview> items = null;
-    private Interview selected;
+    private InterviewFacade ejbFacade;
+    private List<InterviewDTO> items = new ArrayList<>();
+    private InterviewDTO selected;
 
     public InterviewController() {
     }
 
-    public Interview getSelected() {
+    public InterviewDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Interview selected) {
+    public void setSelected(InterviewDTO selected) {
         this.selected = selected;
     }
 
@@ -49,8 +52,8 @@ public class InterviewController implements Serializable {
         return ejbFacade;
     }
 
-    public Interview prepareCreate() {
-        selected = new Interview();
+    public InterviewDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromInterviewEntityToDTO(new Interview());
         initializeEmbeddableKey();
         return selected;
     }
@@ -58,7 +61,7 @@ public class InterviewController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("InterviewCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -70,13 +73,16 @@ public class InterviewController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("InterviewDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Interview> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<InterviewDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Interview> interviews = getFacade().findAll();
+            for (Interview i : interviews) {
+                items.add(Mapper.getMapper().convertFromInterviewEntityToDTO(i));
+            }
         }
         return items;
     }
@@ -84,11 +90,12 @@ public class InterviewController implements Serializable {
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
+            Interview interview = Mapper.getMapper().convertFromInterviewDTOToEntity(selected);
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(interview);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(interview);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

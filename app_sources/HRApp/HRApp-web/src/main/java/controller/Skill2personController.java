@@ -1,10 +1,12 @@
 package controller;
 
+import dto.Skill2personDTO;
 import model.Skill2person;
 import util.JsfUtil;
 import util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -17,6 +19,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import process.Mapper;
 import repository.Skill2personFacade;
 
 @Named("skill2personController")
@@ -24,18 +27,18 @@ import repository.Skill2personFacade;
 public class Skill2personController implements Serializable {
 
     @EJB
-    private repository.Skill2personFacade ejbFacade;
-    private List<Skill2person> items = null;
-    private Skill2person selected;
+    private Skill2personFacade ejbFacade;
+    private List<Skill2personDTO> items = new ArrayList<>();
+    private Skill2personDTO selected;
 
     public Skill2personController() {
     }
 
-    public Skill2person getSelected() {
+    public Skill2personDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Skill2person selected) {
+    public void setSelected(Skill2personDTO selected) {
         this.selected = selected;
     }
 
@@ -49,8 +52,8 @@ public class Skill2personController implements Serializable {
         return ejbFacade;
     }
 
-    public Skill2person prepareCreate() {
-        selected = new Skill2person();
+    public Skill2personDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromSkill2personEntityToDTO(new Skill2person());
         initializeEmbeddableKey();
         return selected;
     }
@@ -58,7 +61,7 @@ public class Skill2personController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("Skill2personCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -70,13 +73,16 @@ public class Skill2personController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("Skill2personDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Skill2person> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<Skill2personDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Skill2person> skill2persons = getFacade().findAll();
+            for (Skill2person s : skill2persons) {
+                items.add(Mapper.getMapper().convertFromSkill2personEntityToDTO(s));
+            }
         }
         return items;
     }
@@ -84,11 +90,12 @@ public class Skill2personController implements Serializable {
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
+            Skill2person s = Mapper.getMapper().convertFromSkill2personDTOToEntity(selected);
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(s);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(s);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
