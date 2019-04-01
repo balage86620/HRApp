@@ -3,8 +3,11 @@ package hu.evoplus.control;
 import hu.evoplus.entity.Skill;
 import hu.evoplus.control.util.JsfUtil;
 import hu.evoplus.control.util.JsfUtil.PersistAction;
+import hu.evoplus.dto.SkillDTO;
+import hu.evoplus.process.Mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,17 +27,17 @@ public class SkillController implements Serializable {
 
     @EJB
     private hu.evoplus.control.SkillFacade ejbFacade;
-    private List<Skill> items = null;
-    private Skill selected;
+    private List<SkillDTO> items = new ArrayList<>();
+    private SkillDTO selected;
 
     public SkillController() {
     }
 
-    public Skill getSelected() {
+    public SkillDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Skill selected) {
+    public void setSelected(SkillDTO selected) {
         this.selected = selected;
     }
 
@@ -48,8 +51,8 @@ public class SkillController implements Serializable {
         return ejbFacade;
     }
 
-    public Skill prepareCreate() {
-        selected = new Skill();
+    public SkillDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromSkillEntityToDTO(new Skill());
         initializeEmbeddableKey();
         return selected;
     }
@@ -73,9 +76,12 @@ public class SkillController implements Serializable {
         }
     }
 
-    public List<Skill> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<SkillDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Skill> skills = getFacade().findAll();
+            for(Skill s : skills) {
+                items.add(Mapper.getMapper().convertFromSkillEntityToDTO(s));
+            }
         }
         return items;
     }
@@ -83,11 +89,12 @@ public class SkillController implements Serializable {
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
+            Skill skill = Mapper.getMapper().convertFromSkillDTOToEntity(selected);
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(skill);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(skill);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

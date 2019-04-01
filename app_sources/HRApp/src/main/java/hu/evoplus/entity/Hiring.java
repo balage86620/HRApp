@@ -13,7 +13,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,7 +48,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Hiring.findBySalaryCategory", query = "SELECT h FROM Hiring h WHERE h.salaryCategory = :salaryCategory")
     ,
     @NamedQuery(name = "Hiring.findByJobId", query = "SELECT h FROM Hiring h WHERE h.jobId = :jobId")})
-public class Hiring implements Serializable {
+public class Hiring extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -76,7 +75,7 @@ public class Hiring implements Serializable {
     @NotNull
     @Column(name = "job_id")
     private int jobId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hiringId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hiringId")
     private List<Application> applicationList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hiringId")
     private List<Degree2hiring> degree2hiringList;

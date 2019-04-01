@@ -5,7 +5,6 @@
  */
 package hu.evoplus.entity;
 
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -34,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Skill.findById", query = "SELECT s FROM Skill s WHERE s.id = :id")
     , @NamedQuery(name = "Skill.findByName", query = "SELECT s FROM Skill s WHERE s.name = :name")
     , @NamedQuery(name = "Skill.findByType", query = "SELECT s FROM Skill s WHERE s.type = :type")})
-public class Skill implements Serializable {
+public class Skill extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id

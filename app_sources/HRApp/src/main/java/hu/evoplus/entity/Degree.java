@@ -5,7 +5,6 @@
  */
 package hu.evoplus.entity;
 
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -33,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Degree.findAll", query = "SELECT d FROM Degree d")
     , @NamedQuery(name = "Degree.findById", query = "SELECT d FROM Degree d WHERE d.id = :id")
     , @NamedQuery(name = "Degree.findByName", query = "SELECT d FROM Degree d WHERE d.name = :name")})
-public class Degree implements Serializable {
+public class Degree extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id

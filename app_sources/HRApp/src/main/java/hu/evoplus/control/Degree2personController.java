@@ -3,8 +3,11 @@ package hu.evoplus.control;
 import hu.evoplus.entity.Degree2person;
 import hu.evoplus.control.util.JsfUtil;
 import hu.evoplus.control.util.JsfUtil.PersistAction;
+import hu.evoplus.dto.Degree2personDTO;
+import hu.evoplus.process.Mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,17 +27,17 @@ public class Degree2personController implements Serializable {
 
     @EJB
     private hu.evoplus.control.Degree2personFacade ejbFacade;
-    private List<Degree2person> items = null;
-    private Degree2person selected;
+    private List<Degree2personDTO> items = new ArrayList<>();
+    private Degree2personDTO selected;
 
     public Degree2personController() {
     }
 
-    public Degree2person getSelected() {
+    public Degree2personDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Degree2person selected) {
+    public void setSelected(Degree2personDTO selected) {
         this.selected = selected;
     }
 
@@ -48,8 +51,8 @@ public class Degree2personController implements Serializable {
         return ejbFacade;
     }
 
-    public Degree2person prepareCreate() {
-        selected = new Degree2person();
+    public Degree2personDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromDegree2personEntityToDTO(new Degree2person());
         initializeEmbeddableKey();
         return selected;
     }
@@ -57,7 +60,7 @@ public class Degree2personController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("Degree2personCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -69,25 +72,29 @@ public class Degree2personController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("Degree2personDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Degree2person> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<Degree2personDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Degree2person> ds = getFacade().findAll();
+            for(Degree2person d : ds) {
+                items.add(Mapper.getMapper().convertFromDegree2personEntityToDTO(d));
+            }
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            Degree2person d = Mapper.getMapper().convertFromDegree2personDTOToEntity(selected);
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(d);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(d);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

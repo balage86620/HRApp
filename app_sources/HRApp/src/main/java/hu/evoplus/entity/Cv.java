@@ -5,7 +5,6 @@
  */
 package hu.evoplus.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -35,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Cv.findByPathToFile", query = "SELECT c FROM Cv c WHERE c.pathToFile = :pathToFile")
     , @NamedQuery(name = "Cv.findByLanguage", query = "SELECT c FROM Cv c WHERE c.language = :language")
     , @NamedQuery(name = "Cv.findByUploadDate", query = "SELECT c FROM Cv c WHERE c.uploadDate = :uploadDate")})
-public class Cv implements Serializable {
+public class Cv extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id

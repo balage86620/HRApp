@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Person.findByUserName", query = "SELECT p FROM Person p WHERE p.userName = :userName")
     , @NamedQuery(name = "Person.findByPassword", query = "SELECT p FROM Person p WHERE p.password = :password")
     , @NamedQuery(name = "Person.findByEmail", query = "SELECT p FROM Person p WHERE p.email = :email")})
-public class Person implements Serializable {
+public class Person extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,11 +59,11 @@ public class Person implements Serializable {
     private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private List<Cv> cvList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private List<Application> applicationList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId", fetch=FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private List<Degree2person> degree2personList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId", fetch=FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private List<Skill2person> skill2personList;
 
     public Person() {

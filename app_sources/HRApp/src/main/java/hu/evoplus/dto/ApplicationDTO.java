@@ -8,14 +8,17 @@ package hu.evoplus.dto;
 import hu.evoplus.entity.Hiring;
 import hu.evoplus.entity.Interview;
 import hu.evoplus.entity.Person;
+import hu.evoplus.process.ListMapper;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import javax.swing.ListModel;
 
 /**
  *
  * @author lkg
  */
-public class ApplicationDTO {
+public class ApplicationDTO extends AbstractDTO {
 
     private Integer id;
     private Date dateOfApplication;
@@ -23,7 +26,7 @@ public class ApplicationDTO {
     private Date modificationDate;
     private Hiring hiringId;
     private Person personId;
-    private List<Interview> interviewList;
+    private List<InterviewDTO> interviewList;
 
     private ApplicationDTO(ApplicationDTOBuilder builder) {
         this.id = builder.id;
@@ -32,7 +35,8 @@ public class ApplicationDTO {
         this.modificationDate = builder.modificationDate;
         this.hiringId = builder.hiringId;
         this.personId = builder.personId;
-        this.interviewList = builder.interviewList;
+        this.interviewList = ListMapper.getListMapper()
+                .convertFromInterviewEntityList(builder.interviewList);
     }
 
     public Integer getId() {
@@ -83,14 +87,69 @@ public class ApplicationDTO {
         this.personId = personId;
     }
 
-    public List<Interview> getInterviewList() {
+    public List<InterviewDTO> getInterviewList() {
         return interviewList;
     }
 
-    public void setInterviewList(List<Interview> interviewList) {
+    public void setInterviewList(List<InterviewDTO> interviewList) {
         this.interviewList = interviewList;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.dateOfApplication);
+        hash = 67 * hash + Objects.hashCode(this.status);
+        hash = 67 * hash + Objects.hashCode(this.modificationDate);
+        hash = 67 * hash + Objects.hashCode(this.hiringId);
+        hash = 67 * hash + Objects.hashCode(this.personId);
+        hash = 67 * hash + Objects.hashCode(this.interviewList);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ApplicationDTO other = (ApplicationDTO) obj;
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.dateOfApplication, other.dateOfApplication)) {
+            return false;
+        }
+        if (!Objects.equals(this.modificationDate, other.modificationDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.hiringId, other.hiringId)) {
+            return false;
+        }
+        if (!Objects.equals(this.personId, other.personId)) {
+            return false;
+        }
+        if (!Objects.equals(this.interviewList, other.interviewList)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ApplicationDTO{" + "id=" + id + ", dateOfApplication=" + dateOfApplication + ", status=" + status + ", modificationDate=" + modificationDate + ", hiringId=" + hiringId + ", personId=" + personId + ", interviewList=" + interviewList + '}';
+    }
+    
+    
     public static class ApplicationDTOBuilder {
 
         private Integer id;

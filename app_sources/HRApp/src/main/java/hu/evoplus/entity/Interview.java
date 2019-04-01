@@ -5,7 +5,6 @@
  */
 package hu.evoplus.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -35,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Interview.findById", query = "SELECT i FROM Interview i WHERE i.id = :id")
     , @NamedQuery(name = "Interview.findByDate", query = "SELECT i FROM Interview i WHERE i.date = :date")
     , @NamedQuery(name = "Interview.findByDescription", query = "SELECT i FROM Interview i WHERE i.description = :description")})
-public class Interview implements Serializable {
+public class Interview extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id

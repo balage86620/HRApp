@@ -3,8 +3,11 @@ package hu.evoplus.control;
 import hu.evoplus.entity.Skill2hiring;
 import hu.evoplus.control.util.JsfUtil;
 import hu.evoplus.control.util.JsfUtil.PersistAction;
+import hu.evoplus.dto.Skill2hiringDTO;
+import hu.evoplus.process.Mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,17 +27,17 @@ public class Skill2hiringController implements Serializable {
 
     @EJB
     private hu.evoplus.control.Skill2hiringFacade ejbFacade;
-    private List<Skill2hiring> items = null;
-    private Skill2hiring selected;
+    private List<Skill2hiringDTO> items = new ArrayList<>();
+    private Skill2hiringDTO selected;
 
     public Skill2hiringController() {
     }
 
-    public Skill2hiring getSelected() {
+    public Skill2hiringDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Skill2hiring selected) {
+    public void setSelected(Skill2hiringDTO selected) {
         this.selected = selected;
     }
 
@@ -48,8 +51,8 @@ public class Skill2hiringController implements Serializable {
         return ejbFacade;
     }
 
-    public Skill2hiring prepareCreate() {
-        selected = new Skill2hiring();
+    public Skill2hiringDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromSkill2hiringEntityToDTO(new Skill2hiring());
         initializeEmbeddableKey();
         return selected;
     }
@@ -57,7 +60,7 @@ public class Skill2hiringController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("Skill2hiringCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -69,13 +72,16 @@ public class Skill2hiringController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("Skill2hiringDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Skill2hiring> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<Skill2hiringDTO> getItems() {
+        if (items.isEmpty()) {
+           List<Skill2hiring> skill2hirings = getFacade().findAll();
+           for(Skill2hiring s : skill2hirings) {
+               items.add(Mapper.getMapper().convertFromSkill2hiringEntityToDTO(s));
+           }
         }
         return items;
     }
@@ -83,11 +89,12 @@ public class Skill2hiringController implements Serializable {
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
+            Skill2hiring s = Mapper.getMapper().convertFromSkill2hiringDTOToEntity(selected);
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(s);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(s);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

@@ -5,12 +5,10 @@
  */
 package hu.evoplus.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Degree2person.findAll", query = "SELECT d FROM Degree2person d")
     , @NamedQuery(name = "Degree2person.findById", query = "SELECT d FROM Degree2person d WHERE d.id = :id")
     , @NamedQuery(name = "Degree2person.findByDateOfIssue", query = "SELECT d FROM Degree2person d WHERE d.dateOfIssue = :dateOfIssue")})
-public class Degree2person implements Serializable {
+public class Degree2person extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,7 +47,7 @@ public class Degree2person implements Serializable {
     @ManyToOne(optional = false)
     private Degree degreeId;
     @JoinColumn(name = "person_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch=FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Person personId;
 
     public Degree2person() {

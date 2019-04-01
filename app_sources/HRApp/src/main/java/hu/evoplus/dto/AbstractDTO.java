@@ -9,6 +9,6 @@ package hu.evoplus.dto;
  *
  * @author lkg
  */
-public class Skill2person {
+public class AbstractDTO {
     
 }

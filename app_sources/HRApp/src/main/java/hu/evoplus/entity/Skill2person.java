@@ -5,11 +5,9 @@
  */
 package hu.evoplus.entity;
 
-import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Skill2person.findAll", query = "SELECT s FROM Skill2person s")
     , @NamedQuery(name = "Skill2person.findById", query = "SELECT s FROM Skill2person s WHERE s.id = :id")
     , @NamedQuery(name = "Skill2person.findBySkillLevel", query = "SELECT s FROM Skill2person s WHERE s.skillLevel = :skillLevel")})
-public class Skill2person implements Serializable {
+public class Skill2person extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,7 +40,7 @@ public class Skill2person implements Serializable {
     @Column(name = "skill_level")
     private Integer skillLevel;
     @JoinColumn(name = "person_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Person personId;
     @JoinColumn(name = "skill_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

@@ -5,7 +5,6 @@
  */
 package hu.evoplus.entity;
 
-import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Degree2hiring.findAll", query = "SELECT d FROM Degree2hiring d")
     , @NamedQuery(name = "Degree2hiring.findById", query = "SELECT d FROM Degree2hiring d WHERE d.id = :id")})
-public class Degree2hiring implements Serializable {
+public class Degree2hiring extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id

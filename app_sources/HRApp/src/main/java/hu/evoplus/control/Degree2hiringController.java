@@ -3,8 +3,11 @@ package hu.evoplus.control;
 import hu.evoplus.entity.Degree2hiring;
 import hu.evoplus.control.util.JsfUtil;
 import hu.evoplus.control.util.JsfUtil.PersistAction;
+import hu.evoplus.dto.Degree2hiringDTO;
+import hu.evoplus.process.Mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,17 +27,17 @@ public class Degree2hiringController implements Serializable {
 
     @EJB
     private hu.evoplus.control.Degree2hiringFacade ejbFacade;
-    private List<Degree2hiring> items = null;
-    private Degree2hiring selected;
+    private List<Degree2hiringDTO> items = new ArrayList<>();
+    private Degree2hiringDTO selected;
 
     public Degree2hiringController() {
     }
 
-    public Degree2hiring getSelected() {
+    public Degree2hiringDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Degree2hiring selected) {
+    public void setSelected(Degree2hiringDTO selected) {
         this.selected = selected;
     }
 
@@ -48,8 +51,8 @@ public class Degree2hiringController implements Serializable {
         return ejbFacade;
     }
 
-    public Degree2hiring prepareCreate() {
-        selected = new Degree2hiring();
+    public Degree2hiringDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromDegree2hiringEntityToDTO(new Degree2hiring());
         initializeEmbeddableKey();
         return selected;
     }
@@ -57,7 +60,7 @@ public class Degree2hiringController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("Degree2hiringCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -69,13 +72,16 @@ public class Degree2hiringController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("Degree2hiringDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Degree2hiring> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<Degree2hiringDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Degree2hiring> dh = getFacade().findAll();
+            for(Degree2hiring d : dh) {
+                items.add(Mapper.getMapper().convertFromDegree2hiringEntityToDTO(d));
+            }
         }
         return items;
     }
@@ -83,11 +89,12 @@ public class Degree2hiringController implements Serializable {
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
+            Degree2hiring d = Mapper.getMapper().convertFromDegree2hiringDTOToEntity(selected);
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(d);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(d);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

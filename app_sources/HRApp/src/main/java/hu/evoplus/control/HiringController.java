@@ -1,6 +1,6 @@
 package hu.evoplus.control;
 
-import hu.evoplus.bl.Mapper;
+import hu.evoplus.process.Mapper;
 import hu.evoplus.entity.Hiring;
 import hu.evoplus.control.util.JsfUtil;
 import hu.evoplus.control.util.JsfUtil.PersistAction;
@@ -62,7 +62,7 @@ public class HiringController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("HiringCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -74,7 +74,7 @@ public class HiringController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("HiringDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 

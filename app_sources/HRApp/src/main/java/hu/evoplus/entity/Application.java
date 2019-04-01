@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Application.findByDateOfApplication", query = "SELECT a FROM Application a WHERE a.dateOfApplication = :dateOfApplication")
     , @NamedQuery(name = "Application.findByStatus", query = "SELECT a FROM Application a WHERE a.status = :status")
     , @NamedQuery(name = "Application.findByModificationDate", query = "SELECT a FROM Application a WHERE a.modificationDate = :modificationDate")})
-public class Application implements Serializable {
+public class Application extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id

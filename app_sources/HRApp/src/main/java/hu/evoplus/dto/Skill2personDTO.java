@@ -5,7 +5,7 @@
  */
 package hu.evoplus.dto;
 
-import hu.evoplus.entity.Hiring;
+import hu.evoplus.entity.Person;
 import hu.evoplus.entity.Skill;
 import java.util.Objects;
 
@@ -13,17 +13,17 @@ import java.util.Objects;
  *
  * @author lkg
  */
-public class Skill2hiringDTO extends AbstractDTO {
+public class Skill2personDTO extends AbstractDTO {
 
     private Integer id;
     private Integer skillLevel;
-    private Hiring hiringId;
+    private Person personId;
     private Skill skillId;
 
-    public Skill2hiringDTO(Skill2hiringDTOBuilder builder) {
+    public Skill2personDTO(Skill2personDTOBuilder builder) {
         this.id = builder.id;
         this.skillLevel = builder.skillLevel;
-        this.hiringId = builder.hiringId;
+        this.personId = builder.personId;
         this.skillId = builder.skillId;
     }
 
@@ -43,12 +43,12 @@ public class Skill2hiringDTO extends AbstractDTO {
         this.skillLevel = skillLevel;
     }
 
-    public Hiring getHiringId() {
-        return hiringId;
+    public Person getPersonId() {
+        return personId;
     }
 
-    public void setHiringId(Hiring hiringId) {
-        this.hiringId = hiringId;
+    public void setPersonId(Person personId) {
+        this.personId = personId;
     }
 
     public Skill getSkillId() {
@@ -62,10 +62,10 @@ public class Skill2hiringDTO extends AbstractDTO {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        hash = 37 * hash + Objects.hashCode(this.skillLevel);
-        hash = 37 * hash + Objects.hashCode(this.hiringId);
-        hash = 37 * hash + Objects.hashCode(this.skillId);
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.skillLevel);
+        hash = 89 * hash + Objects.hashCode(this.personId);
+        hash = 89 * hash + Objects.hashCode(this.skillId);
         return hash;
     }
 
@@ -80,14 +80,14 @@ public class Skill2hiringDTO extends AbstractDTO {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Skill2hiringDTO other = (Skill2hiringDTO) obj;
+        final Skill2personDTO other = (Skill2personDTO) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.skillLevel, other.skillLevel)) {
             return false;
         }
-        if (!Objects.equals(this.hiringId, other.hiringId)) {
+        if (!Objects.equals(this.personId, other.personId)) {
             return false;
         }
         if (!Objects.equals(this.skillId, other.skillId)) {
@@ -98,41 +98,41 @@ public class Skill2hiringDTO extends AbstractDTO {
 
     @Override
     public String toString() {
-        return "Skill2hiringDTO{" + "id=" + id + ", skillLevel=" + skillLevel + ", hiringId=" + hiringId + ", skillId=" + skillId + '}';
+        return "Skill2personDTO{" + "id=" + id + ", skillLevel=" + skillLevel + ", personId=" + personId + ", skillId=" + skillId + '}';
     }
 
-    public static class Skill2hiringDTOBuilder {
+    public static class Skill2personDTOBuilder {
 
         private Integer id;
         private Integer skillLevel;
-        private Hiring hiringId;
+        private Person personId;
         private Skill skillId;
 
-        public Skill2hiringDTOBuilder() {
+        public Skill2personDTOBuilder() {
         }
 
-        public Skill2hiringDTOBuilder withId(Integer id) {
+        public Skill2personDTOBuilder withId(Integer id) {
             this.id = id;
             return this;
         }
 
-        public Skill2hiringDTOBuilder withSkillLevel(Integer skillLevel) {
+        public Skill2personDTOBuilder withSkillLevel(Integer skillLevel) {
             this.skillLevel = skillLevel;
             return this;
         }
 
-        public Skill2hiringDTOBuilder withHiringId(Hiring hiringId) {
-            this.hiringId = hiringId;
+        public Skill2personDTOBuilder withPersonId(Person personId) {
+            this.personId = personId;
             return this;
         }
 
-        public Skill2hiringDTOBuilder withSkillId(Skill skillId) {
+        public Skill2personDTOBuilder withSkillId(Skill skillId) {
             this.skillId = skillId;
             return this;
         }
 
-        public Skill2hiringDTO build() {
-            return new Skill2hiringDTO(this);
+        public Skill2personDTO build() {
+            return new Skill2personDTO(this);
         }
 
     }

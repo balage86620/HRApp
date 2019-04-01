@@ -3,8 +3,11 @@ package hu.evoplus.control;
 import hu.evoplus.entity.Degree;
 import hu.evoplus.control.util.JsfUtil;
 import hu.evoplus.control.util.JsfUtil.PersistAction;
+import hu.evoplus.dto.DegreeDTO;
+import hu.evoplus.process.Mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,17 +27,17 @@ public class DegreeController implements Serializable {
 
     @EJB
     private hu.evoplus.control.DegreeFacade ejbFacade;
-    private List<Degree> items = null;
-    private Degree selected;
+    private List<DegreeDTO> items = new ArrayList<>();
+    private DegreeDTO selected;
 
     public DegreeController() {
     }
 
-    public Degree getSelected() {
+    public DegreeDTO getSelected() {
         return selected;
     }
 
-    public void setSelected(Degree selected) {
+    public void setSelected(DegreeDTO selected) {
         this.selected = selected;
     }
 
@@ -48,8 +51,8 @@ public class DegreeController implements Serializable {
         return ejbFacade;
     }
 
-    public Degree prepareCreate() {
-        selected = new Degree();
+    public DegreeDTO prepareCreate() {
+        selected = Mapper.getMapper().convertFromDegreeEntityToDTO(new Degree());
         initializeEmbeddableKey();
         return selected;
     }
@@ -57,7 +60,7 @@ public class DegreeController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("DegreeCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -69,13 +72,16 @@ public class DegreeController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("DegreeDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            items.clear();    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Degree> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+    public List<DegreeDTO> getItems() {
+        if (items.isEmpty()) {
+            List<Degree> degrees = getFacade().findAll();
+            for(Degree d : degrees) {
+                items.add(Mapper.getMapper().convertFromDegreeEntityToDTO(d));
+            }
         }
         return items;
     }
@@ -83,11 +89,12 @@ public class DegreeController implements Serializable {
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
+            Degree degree = Mapper.getMapper().convertFromDegreeDTOToEntity(selected);
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(degree);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(degree);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
