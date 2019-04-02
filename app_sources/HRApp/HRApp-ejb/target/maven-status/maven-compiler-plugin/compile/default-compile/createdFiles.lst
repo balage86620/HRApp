@@ -1,0 +1,11 @@
+model\Degree2hiring_.class
+model\Skill_.class
+model\Skill2person_.class
+model\Skill2hiring_.class
+model\Application_.class
+model\Interview_.class
+model\Cv_.class
+model\Degree2person_.class
+model\Degree_.class
+model\Hiring_.class
+model\Person_.class
