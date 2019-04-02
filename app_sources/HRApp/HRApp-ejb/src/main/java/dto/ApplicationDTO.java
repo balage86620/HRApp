@@ -19,7 +19,7 @@ import process.ListMapper;
  */
 public class ApplicationDTO extends AbstractDTO {
 
-      private Integer id;
+    private Integer id;
     private Date dateOfApplication;
     private String status;
     private Date modificationDate;
@@ -147,8 +147,7 @@ public class ApplicationDTO extends AbstractDTO {
     public String toString() {
         return "ApplicationDTO{" + "id=" + id + ", dateOfApplication=" + dateOfApplication + ", status=" + status + ", modificationDate=" + modificationDate + ", hiringId=" + hiringId + ", personId=" + personId + ", interviewList=" + interviewList + '}';
     }
-    
-    
+
     public static class ApplicationDTOBuilder {
 
         private Integer id;
