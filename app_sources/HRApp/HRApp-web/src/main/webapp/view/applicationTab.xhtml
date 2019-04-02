@@ -19,7 +19,7 @@ and open the template in the editor.
         <ui:define name="body">
             <h:form>
                 <p:panel>
-                    <h:panelGrid columns="2" style="margin: 0 auto;">
+                    <h:panelGrid columns="4" style="margin: 0 auto;">
                         <f:facet name="header">
                             <h:outputLabel value="#{bundle.ListApplicationTitle}" style="font-size:16px;"/>
                         </f:facet>
@@ -28,25 +28,45 @@ and open the template in the editor.
                                          icon="ui-icon-plus"
                                          onclick="PF('addDlg').show();"
                                          style="float:right">
-                        </p:commandButton>  
+                        </p:commandButton>
+
+                        <p:commandButton value="#{bundle.Update}"
+                                         type="button"
+                                         icon="ui-icon-refresh"
+                                         style="float:right">
+                        </p:commandButton> 
+
+                        <p:commandButton value="#{bundle.View}"
+                                         type="button"
+                                         icon="ui-icon-search"
+                                         style="float:right">
+                        </p:commandButton> 
+
+                        <p:commandButton value="#{bundle.Delete}"
+                                         type="button"
+                                         icon="ui-icon-close"
+                                         style="float:right">
+                        </p:commandButton> 
                     </h:panelGrid>
+                    
+                    <br/>
 
                     <p:dialog position="center center" resizable="false" draggable="false" header="#{bundle.CreateNewApplication}" widgetVar="addDlg" minHeight="40">
                         <h:panelGrid columns="2" cellpadding="5">
-                            
+
                             <h:outputLabel value="#{bundle.PersonName}:" />
                             <h:selectOneMenu value="#{personController.items}">
-                                <f:selectItems var="item" value="#{personController.items}" itemLabel="#{item.name}"/>
+                                <f:selectItems var="item" value="#{personController.items}" itemLabel="#{item.id} - #{item.name}"/>
                             </h:selectOneMenu>
 
                             <h:outputLabel value="#{bundle.JobName}:" />
                             <h:selectOneMenu value="#{hiringController.items}" >
                                 <f:selectItems var="item" value="#{hiringController.items}" itemLabel="#{item.jobName}" />
                             </h:selectOneMenu>
-                            
+
                             <h:outputLabel value="#{bundle.ApplicationDate}:" />
                             <p:calendar id="applicationDate"/>
-                            
+
                             <h:outputLabel value="#{bundle.ApplicationStatus}:" />
                             <p:inputText id="applicationStatus"/>
 
@@ -57,13 +77,15 @@ and open the template in the editor.
                         </h:panelGrid>
                     </p:dialog>
 
+
+
                     <p:dataTable id="datalist" value="#{applicationController.items}" var="item"
                                  selectionMode="single" selection="#{applicationController.selected}"
                                  rowKey="#{item.id}"
                                  style="overflow-y: scroll;"
                                  >
 
-                        <p:ajax event="rowSelect" listener="#{applicationController.onRowSelectNavigate(event)}"/>
+<!--                        <p:ajax event="rowSelect" listener="#{applicationController.onRowSelectNavigate(event)}"/>-->
 
                         <p:column sortBy="#{item.id}" filterBy="#{item.id}">
                             <f:facet name="header">

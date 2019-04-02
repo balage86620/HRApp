@@ -129,14 +129,16 @@ public class ApplicationController implements Serializable {
     public List<Application> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
+    
 
-    public void onRowSelectNavigate(SelectEvent event) {
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("applicationView.xhtml?i=1");
-        } catch (IOException ex) {
-            Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+
+//    public void onRowSelectNavigate(SelectEvent event) {
+//        try {
+//            FacesContext.getCurrentInstance().getExternalContext().redirect("applicationView.xhtml?i=1");
+//        } catch (IOException ex) {
+//            Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     @FacesConverter(forClass = Application.class)
     public static class ApplicationControllerConverter implements Converter {
