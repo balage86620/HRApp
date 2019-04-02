@@ -26,6 +26,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -70,10 +72,13 @@ public class Hiring implements Serializable {
     @Column(name = "job_id")
     private int jobId;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "hiringId")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Application> applicationList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hiringId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "hiringId")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Degree2hiring> degree2hiringList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hiringId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "hiringId")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Skill2hiring> skill2hiringList;
 
     public Hiring() {

@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -49,8 +51,10 @@ public class Skill implements Serializable {
     @Column(name = "type")
     private String type;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "skillId")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Skill2person> skill2personList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "skillId")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Skill2hiring> skill2hiringList;
 
     public Skill() {

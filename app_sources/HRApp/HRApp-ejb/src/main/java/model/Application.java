@@ -22,6 +22,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -57,9 +59,10 @@ public class Application implements Serializable {
     @ManyToOne(optional = false)
     private Hiring hiringId;
     @JoinColumn(name = "person_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(optional = false)
     private Person personId;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "applicationId")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Interview> interviewList;
 
     public Application() {
