@@ -22,6 +22,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -58,13 +60,17 @@ public class Person implements Serializable {
     @Size(max = 45)
     @Column(name = "email")
     private String email;
-    @OneToMany(mappedBy = "personId")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "personId")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Cv> cvList;
-    @OneToMany(mappedBy = "personId")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "personId")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Application> applicationList;
-    @OneToMany(mappedBy = "personId")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "personId")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Degree2person> degree2personList;
-    @OneToMany(mappedBy = "personId")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "personId")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Skill2person> skill2personList;
 
     public Person() {

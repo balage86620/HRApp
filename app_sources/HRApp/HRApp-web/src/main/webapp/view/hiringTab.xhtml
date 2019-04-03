@@ -19,7 +19,7 @@ and open the template in the editor.
             <h:form>
                 <p:panel>
 
-                    <h:panelGrid columns="2" style="margin: 0 auto;">
+                    <h:panelGrid columns="4" style="margin: 0 auto;">
                         <f:facet name="header">
                             <h:outputLabel value="#{bundle.ListHiringTitle}" style="font-size:16px;"/>
                         </f:facet>
@@ -27,8 +27,29 @@ and open the template in the editor.
                                   icon="ui-icon-plus"
                                   outcome="newHiring.xhtml"
                                   style="float:right">
-                        </p:button> 
+                        </p:button>
+
+                        <p:commandButton value="#{bundle.Update}"
+                                         type="button"
+                                         icon="ui-icon-refresh"
+                                         style="float:right">
+                        </p:commandButton> 
+
+                        <p:commandButton value="#{bundle.View}"
+                                         type="button"
+                                         icon="ui-icon-search"
+                                         style="float:right">
+                        </p:commandButton> 
+
+                        <p:commandButton value="#{bundle.Delete}"
+                                         type="button"
+                                         icon="ui-icon-close"
+                                         style="float:right">
+                        </p:commandButton> 
                     </h:panelGrid>
+                    
+                    <br/>
+                    
                     <p:dataTable id="datalist" value="#{hiringController.items}" var="item"
                                  selectionMode="single" selection="#{hiringController.selected}"
                                  paginator="false"

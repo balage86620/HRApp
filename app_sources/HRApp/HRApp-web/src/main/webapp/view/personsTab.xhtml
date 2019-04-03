@@ -7,6 +7,9 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+
+
+
     <ui:composition template="/view/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ListPersonTitle}"></h:outputText>
@@ -15,7 +18,7 @@
         <ui:define name="body">
             <h:form>
                 <p:panel>
-                    <h:panelGrid columns="2" style="margin: 0 auto;">
+                    <h:panelGrid columns="4" style="margin: 0 auto;">
                         <f:facet name="header">
                             <h:outputLabel value="#{bundle.ListPersonTitle}" style="font-size:16px;"/>
                         </f:facet>
@@ -25,7 +28,28 @@
                                          onclick="PF('addDlg').show();"
                                          style="float:right">
                         </p:commandButton> 
+
+                        <p:commandButton value="#{bundle.Update}"
+                                         type="button"
+                                         icon="ui-icon-refresh"
+                                         onclick="PF('updateDlg').show();"
+                                         style="float:right">
+                        </p:commandButton> 
+
+                        <p:commandButton value="#{bundle.View}"
+                                         type="button"
+                                         icon="ui-icon-search"
+                                         style="float:right">
+                        </p:commandButton> 
+
+                        <p:commandButton value="#{bundle.Delete}"
+                                         type="button"
+                                         icon="ui-icon-close"
+                                         style="float:right">
+                        </p:commandButton> 
                     </h:panelGrid>
+
+                    <br/>
 
                     <p:dialog position="center center" resizable="false" draggable="false" header="#{bundle.CreateNewPerson}" widgetVar="addDlg" minHeight="40">
                         <h:form enctype="multipart/form-data">
@@ -53,12 +77,40 @@
                             </h:panelGrid>
                         </h:form>
                     </p:dialog>
+                    
+                    
+                    <p:dialog position="center center" resizable="false" draggable="false" header="#{bundle.Update} #{personController.selected.name}" widgetVar="updateDlg" minHeight="40">
+                        <h:form enctype="multipart/form-data">
+                            <h:panelGrid columns="2" cellpadding="5">
+
+                                <h:outputLabel value="#{bundle.PersonName}:" />
+                                <p:inputText id="name" value="#{personController.selected.name}" />
+
+                                <h:outputLabel value="#{bundle.PersonUserName}:" />
+                                <p:inputText id="userName" value="#{personController.selected.userName}"/>
+
+                                <h:outputLabel value="#{bundle.PersonEmail}:" />
+                                <p:inputText id="email" value="#{personController.selected.email}"/>
+
+                                <h:outputLabel value="#{bundle.UploadCV}:" />
+
+                                <p:fileUpload mode="simple"/> 
+
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="#{bundle.SaveButton}"/>
+                                    <p:commandButton value="#{bundle.CancelButton}" onclick="PF('updateDlg').hide();"/>
+                                </f:facet>  
+
+                            </h:panelGrid>
+                        </h:form>
+                    </p:dialog>
 
                     <p:dataTable id="datalist" value="#{personController.items}" var="item"
                                  selectionMode="single" selection="#{personController.selected}"
                                  rowKey="#{item.id}"
-                                 style="overflow-y: scroll;"
-                                 >
+                                 style="overflow-y: scroll;">
+                                
                         <p:column sortBy="#{item.id}" filterBy="#{item.id}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.PersonId}"/>
