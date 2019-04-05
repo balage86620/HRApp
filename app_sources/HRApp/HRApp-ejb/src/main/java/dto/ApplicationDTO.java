@@ -147,8 +147,7 @@ public class ApplicationDTO extends AbstractDTO {
     public String toString() {
         return "ApplicationDTO{" + "id=" + id + ", dateOfApplication=" + dateOfApplication + ", status=" + status + ", modificationDate=" + modificationDate + ", hiringDTO=" + hiringDTO + ", personDTO=" + personDTO + ", interviewList=" + interviewList + '}';
     }
-    
-    
+
     public static class ApplicationDTOBuilder {
 
         private Integer id;
@@ -196,7 +195,7 @@ public class ApplicationDTO extends AbstractDTO {
             return this;
         }
         public ApplicationDTOBuilder withPersonDTO(PersonDTO person) {
-            this.personDTO = personDTO;
+            this.personDTO = person;
             return this;
         }
 

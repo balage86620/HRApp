@@ -1,0 +1,54 @@
+[
+    {
+        "currency": "HUF",
+        "id": 1,
+        "jobTitle": "Junior Frontend fejleszt\ufffd",
+        "maxSalary": 420000,
+        "minSalary": 300000,
+        "workerNum": 1
+    },
+    {
+        "currency": "HUF",
+        "id": 2,
+        "jobTitle": "Junior Backend fejleszt\ufffd",
+        "maxSalary": 470000,
+        "minSalary": 330000,
+        "workerNum": 1
+    },
+    {
+        "currency": "HUF",
+        "id": 3,
+        "jobTitle": "UIX designer",
+        "maxSalary": 320000,
+        "minSalary": 260000,
+        "workerNum": 0
+    },
+    {
+        "currency": "HUF",
+        "id": 4,
+        "jobTitle": "HR Assistant",
+        "maxSalary": 320000,
+        "minSalary": 260000,
+        "workerNum": 1
+    },
+    {
+        "currency": "HUF",
+        "id": 5,
+        "jobDescription": "",
+        "jobTitle": "IT Architect",
+        "maxSalary": 550000,
+        "minSalary": 390000,
+        "path": "",
+        "workerNum": 1
+    },
+    {
+        "currency": "HUF",
+        "id": 6,
+        "jobDescription": "",
+        "jobTitle": "Application Manager",
+        "maxSalary": 425000,
+        "minSalary": 300000,
+        "path": "",
+        "workerNum": 1
+    }
+]
