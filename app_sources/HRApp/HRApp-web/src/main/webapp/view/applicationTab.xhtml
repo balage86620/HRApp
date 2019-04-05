@@ -55,23 +55,22 @@ and open the template in the editor.
                         <h:panelGrid columns="2" cellpadding="5">
 
                             <h:outputLabel value="#{bundle.PersonName}:" />
-                            <h:selectOneMenu value="#{personController.items}">
+                            <h:selectOneMenu onselect="#{personController.selected}" value="#{personController.selected}">
                                 <f:selectItems var="item" value="#{personController.items}" itemLabel="#{item.id} - #{item.name}"/>
                             </h:selectOneMenu>
 
                             <h:outputLabel value="#{bundle.JobName}:" />
-                            <h:selectOneMenu value="#{hiringController.items}" >
-                                <f:selectItems var="item" value="#{hiringController.items}" itemLabel="#{item.jobName}" />
+                            <h:selectOneMenu onselect="#{hiringController.selected}" value="#{hiringController.selected}" >
+                                <f:selectItems  var="item" value="#{hiringController.items}" itemLabel="#{item.jobName}" />
                             </h:selectOneMenu>
 
                             <h:outputLabel value="#{bundle.ApplicationDate}:" />
-                            <p:calendar id="applicationDate"/>
-
-                            <h:outputLabel value="#{bundle.ApplicationStatus}:" />
-                            <p:inputText id="applicationStatus"/>
+                            <p:calendar id="applicationDate" value="#{applicationController.applDate}">
+                                <p:ajax process="applicationDate" partialSubmit="true" event="change"/>
+                            </p:calendar>
 
                             <f:facet name="footer">
-                                <p:commandButton value="#{bundle.SaveButton}"/>
+                                <p:commandButton value="#{bundle.SaveButton}" onclick="#{applicationController.newApplication(personController.selected, hiringController.selected)}"/>
                                 <p:commandButton value="#{bundle.CancelButton}" onclick="PF('addDlg').hide();"/>
                             </f:facet>  
                         </h:panelGrid>
@@ -79,13 +78,13 @@ and open the template in the editor.
 
 
 
-                    <p:dataTable id="datalist" value="#{applicationController.items}" var="item"
+                    <p:dataTable id="datalist" value="#{applicationController.applications}" var="item"
                                  selectionMode="single" selection="#{applicationController.selected}"
                                  rowKey="#{item.id}"
                                  style="overflow-y: scroll;"
                                  >
 
-<!--                        <p:ajax event="rowSelect" listener="#{applicationController.onRowSelectNavigate(event)}"/>-->
+                        <p:ajax event="rowSelect" listener="#{applicationController.onRowSelectNavigate(event)}"/>
 
                         <p:column sortBy="#{item.id}" filterBy="#{item.id}">
                             <f:facet name="header">

@@ -5,11 +5,14 @@ import model.Application;
 import util.JsfUtil;
 import util.JsfUtil.PersistAction;
 import dto.ApplicationDTO;
+import dto.HiringDTO;
+import dto.PersonDTO;
 import repository.ApplicationFacade;
 import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,6 +26,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.event.SelectEvent;
+import process.BusinessLogic;
 
 @Named("applicationController")
 @SessionScoped
@@ -30,10 +34,23 @@ public class ApplicationController implements Serializable {
 
     @EJB
     private ApplicationFacade ejbFacade;
+
+    @EJB
+    private BusinessLogic logic;
     private List<ApplicationDTO> items = new ArrayList<>();
     private ApplicationDTO selected;
+    private Date applDate;
 
     public ApplicationController() {
+    }
+
+    public List<ApplicationDTO> getApplications() {
+        this.items = logic.getApplicationDTOForController();
+        return this.items;
+    }
+    
+    public void newApplication(PersonDTO personDTO, HiringDTO hiringDTO){
+        logic.newApplication(personDTO, hiringDTO);
     }
 
     public ApplicationDTO getSelected() {
@@ -43,6 +60,24 @@ public class ApplicationController implements Serializable {
     public void setSelected(ApplicationDTO selected) {
         this.selected = selected;
     }
+
+    public void previousApplication() {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getId().intValue() == selected.getId().intValue()) {
+                setSelected(items.get(i-1));
+            }
+        }
+    }
+
+    public Date getApplDate() {
+        return applDate;
+    }
+
+    public void setApplDate(Date applDate) {
+        this.applDate = applDate;
+    }
+    
+    
 
     protected void setEmbeddableKeys() {
     }
@@ -129,16 +164,14 @@ public class ApplicationController implements Serializable {
     public List<Application> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-    
 
-
-//    public void onRowSelectNavigate(SelectEvent event) {
-//        try {
-//            FacesContext.getCurrentInstance().getExternalContext().redirect("applicationView.xhtml?i=1");
-//        } catch (IOException ex) {
-//            Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+    public void onRowSelectNavigate(SelectEvent event) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("applicationView.xhtml?i=2");
+        } catch (IOException ex) {
+            Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     @FacesConverter(forClass = Application.class)
     public static class ApplicationControllerConverter implements Converter {

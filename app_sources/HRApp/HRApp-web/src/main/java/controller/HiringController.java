@@ -132,7 +132,7 @@ public class HiringController implements Serializable {
 
     public void onRowSelectNavigate(SelectEvent event) {
         try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("hiringView.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("hiringView.xhtml?i=1");
         } catch (IOException ex) {
             Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
         }

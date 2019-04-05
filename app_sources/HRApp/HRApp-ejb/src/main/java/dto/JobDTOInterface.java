@@ -5,10 +5,14 @@
  */
 package dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.Serializable;
+
 /**
  *
- * @author lkg
+ * @author Hirsch
  */
-public class JobDTO{
+@JsonDeserialize(as = JobDTO.class)
+public interface JobDTOInterface extends Serializable{
     
 }

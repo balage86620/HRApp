@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import process.ListMapper;
+import process.Mapper;
 
 /**
  *
@@ -19,12 +20,12 @@ import process.ListMapper;
  */
 public class ApplicationDTO extends AbstractDTO {
 
-      private Integer id;
+    private Integer id;
     private Date dateOfApplication;
     private String status;
     private Date modificationDate;
-    private Hiring hiringId;
-    private Person personId;
+    private HiringDTO hiringDTO;
+    private PersonDTO personDTO;
     private List<InterviewDTO> interviewList;
 
     private ApplicationDTO(ApplicationDTOBuilder builder) {
@@ -32,10 +33,9 @@ public class ApplicationDTO extends AbstractDTO {
         this.dateOfApplication = builder.dateOfApplication;
         this.status = builder.status;
         this.modificationDate = builder.modificationDate;
-        this.hiringId = builder.hiringId;
-        this.personId = builder.personId;
-        this.interviewList = ListMapper.getListMapper()
-                .convertFromInterviewEntityList(builder.interviewList);
+        this.hiringDTO = builder.hiringDTO;
+        this.personDTO = builder.personDTO;
+        this.interviewList = builder.interviewList;
     }
 
     public Integer getId() {
@@ -70,20 +70,20 @@ public class ApplicationDTO extends AbstractDTO {
         this.modificationDate = modificationDate;
     }
 
-    public Hiring getHiringId() {
-        return hiringId;
+    public HiringDTO getHiringDTO() {
+        return hiringDTO;
     }
 
-    public void setHiringId(Hiring hiringId) {
-        this.hiringId = hiringId;
+    public void setHiringDTO(HiringDTO hiringDTO) {
+        this.hiringDTO = hiringDTO;
     }
 
-    public Person getPersonId() {
-        return personId;
+    public PersonDTO getPersonDTO() {
+        return personDTO;
     }
 
-    public void setPersonId(Person personId) {
-        this.personId = personId;
+    public void setPersonDTO(PersonDTO personDTO) {
+        this.personDTO = personDTO;
     }
 
     public List<InterviewDTO> getInterviewList() {
@@ -101,8 +101,8 @@ public class ApplicationDTO extends AbstractDTO {
         hash = 67 * hash + Objects.hashCode(this.dateOfApplication);
         hash = 67 * hash + Objects.hashCode(this.status);
         hash = 67 * hash + Objects.hashCode(this.modificationDate);
-        hash = 67 * hash + Objects.hashCode(this.hiringId);
-        hash = 67 * hash + Objects.hashCode(this.personId);
+        hash = 67 * hash + Objects.hashCode(this.hiringDTO);
+        hash = 67 * hash + Objects.hashCode(this.personDTO);
         hash = 67 * hash + Objects.hashCode(this.interviewList);
         return hash;
     }
@@ -131,10 +131,10 @@ public class ApplicationDTO extends AbstractDTO {
         if (!Objects.equals(this.modificationDate, other.modificationDate)) {
             return false;
         }
-        if (!Objects.equals(this.hiringId, other.hiringId)) {
+        if (!Objects.equals(this.hiringDTO, other.hiringDTO)) {
             return false;
         }
-        if (!Objects.equals(this.personId, other.personId)) {
+        if (!Objects.equals(this.personDTO, other.personDTO)) {
             return false;
         }
         if (!Objects.equals(this.interviewList, other.interviewList)) {
@@ -145,7 +145,7 @@ public class ApplicationDTO extends AbstractDTO {
 
     @Override
     public String toString() {
-        return "ApplicationDTO{" + "id=" + id + ", dateOfApplication=" + dateOfApplication + ", status=" + status + ", modificationDate=" + modificationDate + ", hiringId=" + hiringId + ", personId=" + personId + ", interviewList=" + interviewList + '}';
+        return "ApplicationDTO{" + "id=" + id + ", dateOfApplication=" + dateOfApplication + ", status=" + status + ", modificationDate=" + modificationDate + ", hiringDTO=" + hiringDTO + ", personDTO=" + personDTO + ", interviewList=" + interviewList + '}';
     }
     
     
@@ -155,9 +155,9 @@ public class ApplicationDTO extends AbstractDTO {
         private Date dateOfApplication;
         private String status;
         private Date modificationDate;
-        private Hiring hiringId;
-        private Person personId;
-        private List<Interview> interviewList;
+        private HiringDTO hiringDTO;
+        private PersonDTO personDTO;
+        private List<InterviewDTO> interviewList;
 
         public ApplicationDTOBuilder() {
         }
@@ -182,17 +182,29 @@ public class ApplicationDTO extends AbstractDTO {
             return this;
         }
 
-        public ApplicationDTOBuilder withHiringId(Hiring hiringId) {
-            this.hiringId = hiringId;
+        public ApplicationDTOBuilder withHiring(Hiring hiring) {
+            this.hiringDTO = Mapper.getMapper().convertFromHiringEntityToDTO(hiring);
+            return this;
+        }
+        public ApplicationDTOBuilder withHiringDTO(HiringDTO hiringDTO) {
+            this.hiringDTO = hiringDTO;
             return this;
         }
 
-        public ApplicationDTOBuilder withPersonId(Person personId) {
-            this.personId = personId;
+        public ApplicationDTOBuilder withPerson(Person person) {
+            this.personDTO = Mapper.getMapper().convertFromPersonEntityToDTO(person);
+            return this;
+        }
+        public ApplicationDTOBuilder withPersonDTO(PersonDTO person) {
+            this.personDTO = personDTO;
             return this;
         }
 
         public ApplicationDTOBuilder withInterviewList(List<Interview> interviewList) {
+            this.interviewList = ListMapper.getListMapper().convertFromInterviewEntityList(interviewList);
+            return this;
+        }
+        public ApplicationDTOBuilder withInterviewListDTO(List<InterviewDTO> interviewList) {
             this.interviewList = interviewList;
             return this;
         }

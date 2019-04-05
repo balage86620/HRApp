@@ -27,32 +27,31 @@ and open the template in the editor.
                         <f:param name="j" value="1"/>
                     </p:menuitem>
                 </p:tabMenu>
-                <p:panelGrid columns="2" >
+                <p:panelGrid columns="2" layout="grid" style="width:100%">
                     <h:panelGroup id="display">
-                        <p:dataGrid  value="#{applicationController.items}" var="item" columns="1"
-                                     rows="1" paginator="true"
-                                     paginatorTemplate="{PreviousPageLink} {NextPageLink}">
-                            <f:facet name="header">
-                                #{bundle.ViewApplicationLabel_personHeader}
-                            </f:facet>
-
-                            <p:panelGrid columns="2" rendered="#{applicationController.selected != null}">
+                        <p:panelGrid columns="2" style="width:50%">
                                 <h:outputText value="#{bundle.ViewApplicationLabel_personId}"/>
-                                <h:outputText value="#{item.id}" title="#{bundle.ViewApplicationLabel_personId}"/>
+                                <h:outputText value="#{applicationController.selected.id}" title="#{bundle.ViewApplicationLabel_personId}"/>
                                 <h:outputText value="#{bundle.ViewApplicationLabel_personName}"/>
-                                <h:outputText value="#{item.id}" title="#{bundle.ViewApplicationLabel_personName}"/>
+                                <h:outputText value="#{applicationController.selected.personId.name}" title="#{bundle.ViewApplicationLabel_personName}"/>
                             </p:panelGrid>
-                        </p:dataGrid>
+                        <p:commandButton value="previous"
+                                         onclick="#{applicationController.previousApplication()}"
+                                         update=":ApplicationView"/>
 
                     </h:panelGroup>
                     <h:panelGroup id="applicationData">
-                        <p:panel header="#{bundle.ViewApplicationLabel_applicationHeader}">
+                        <p:carousel value="#{applicationController.selected.personId.applicationList}" var="item"
+                                    headerText="#{bundle.ViewApplicationLabel_applicationHeader}"
+                                    numVisible="1"
+                                    rendered="#{applicationController.selected != null}"
+                                    binding="#{carousel2}">
                             <p:panelGrid columns="2">
+                                <h:outputText value="#{bundle.ListApplicationTitle_Application_id}"/>
                                 <h:outputText value="#{applicationController.selected.id}" title="#{bundle.ListApplicationTitle_id}"/>
 
-
                             </p:panelGrid>
-                        </p:panel>
+                        </p:carousel>
                     </h:panelGroup>
                 </p:panelGrid>
                 <p:panel header="#{bundle.ListApplicationTitle}" rendered="#{applicationController.selected != null}">

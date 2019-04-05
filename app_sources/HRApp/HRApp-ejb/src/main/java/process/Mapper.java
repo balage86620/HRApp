@@ -47,7 +47,7 @@ public class Mapper {
 
     private static final Mapper MAPPER = new Mapper();
 
-    private Mapper() {
+    public Mapper() {
     }
 
     public static Mapper getMapper() {
@@ -57,11 +57,11 @@ public class Mapper {
     public ApplicationDTO convertFromApplicationEntityToDTO(Application application) {
         return new ApplicationDTOBuilder()
                 .withDateOfApplication(application.getDateOfApplication())
-                .withHiringId(application.getHiringId())
+                .withHiring(application.getHiringId())
                 .withId(application.getId())
                 .withInterviewList(application.getInterviewList())
                 .withModificationDate(application.getModificationDate())
-                .withPersonId(application.getPersonId())
+                .withPerson(application.getPersonId())
                 .withStatus(application.getStatus())
                 .build();
     }
@@ -69,12 +69,12 @@ public class Mapper {
     public Application convertFromApplicationDTOToEntity(ApplicationDTO data) {
         Application application = new Application();
         application.setDateOfApplication(data.getDateOfApplication());
-        application.setHiringId(data.getHiringId());
+        application.setHiringId(Mapper.getMapper().convertFromHiringDTOToEntity(data.getHiringDTO()));
         application.setId(data.getId());
         application.setInterviewList(ListMapper.getListMapper()
                 .convertFromInterviewDTOList(data.getInterviewList()));
         application.setModificationDate(data.getModificationDate());
-        application.setPersonId(data.getPersonId());
+        application.setPersonId(Mapper.getMapper().convertFromPersonDTOToEntity(data.getPersonDTO()));
         application.setStatus(data.getStatus());
         return application;
     }
